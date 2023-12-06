@@ -1,0 +1,819 @@
+<!DOCTYPE html>
+
+
+<html lang="zh-CN">
+  
+
+    <head>
+      <meta charset="utf-8" />
+        
+      <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1, maximum-scale=1"
+      />
+      <title>Spring |  Shiweiwong&#39;s Blog</title>
+  <meta name="generator" content="hexo-theme-ayer">
+      
+      <link rel="shortcut icon" href="/favicon.ico" />
+       
+<link rel="stylesheet" href="/dist/main.css">
+
+      <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/Shen-Yu/cdn/css/remixicon.min.css"
+      />
+      
+<link rel="stylesheet" href="/css/custom.css">
+ 
+      <script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+       
+ 
+
+      <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-bulma@5.0.1/bulma.min.css"
+      />
+      <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.min.js"></script>
+
+      <!-- mermaid -->
+      
+      <script src="https://cdn.jsdelivr.net/npm/mermaid@8.9.2/dist/mermaid.min.js"></script>
+      
+      <style>
+        .swal2-styled.swal2-confirm {
+          font-size: 1.6rem;
+        }
+      </style>
+    </head>
+  </html>
+</html>
+
+
+<body>
+  <div id="app">
+    
+      
+    <main class="content on">
+      <section class="outer">
+  <article
+  id="post-notes/Spring"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h1 class="article-title sea-center" style="border-left:0" itemprop="name">
+  Spring
+</h1>
+ 
+
+      
+    </header>
+     
+    <div class="article-meta">
+      <a href="/notes/Spring.html" class="article-date">
+  <time datetime="2023-12-06T00:20:40.813Z" itemprop="datePublished">2023-12-06</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/notes/">notes</a>
+  </div>
+  
+<div class="word_count">
+    <span class="post-time">
+        <span class="post-meta-item-icon">
+            <i class="ri-quill-pen-line"></i>
+            <span class="post-meta-item-text"> 字数统计:</span>
+            <span class="post-count">2k</span>
+        </span>
+    </span>
+
+    <span class="post-time">
+        &nbsp; | &nbsp;
+        <span class="post-meta-item-icon">
+            <i class="ri-book-open-line"></i>
+            <span class="post-meta-item-text"> 阅读时长≈</span>
+            <span class="post-count">8 分钟</span>
+        </span>
+    </span>
+</div>
+ 
+    </div>
+      
+    <div class="tocbot"></div>
+
+
+
+
+  
+    <div class="article-entry" itemprop="articleBody">
+       
+  <blockquote>
+<p><a target="_blank" rel="noopener" href="https://www.w3cschool.cn/wkspring/dcu91icn.html">Spring 体系结构</a></p>
+</blockquote>
+<h1 id="Hello-World"><a href="#Hello-World" class="headerlink" title="Hello World"></a>Hello World</h1><ul>
+<li>创建一个 java bean 对象<br></li>
+</ul>
+<p><strong>可以用 kotlin</strong> :<code>data class Helloworld（var message:String = &quot;helloWorld&quot;)</code></p>
+<ul>
+<li>在 src 下 创建 Beans.xml 文件对 javaBean 进行注册<br><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;bean id=&quot;helloWorld&quot; class=&quot;Helloworld&quot;&gt;</span><br><span class="line">  &lt;property name=&quot;message&quot; value=&quot;Hello World&quot;/&gt;</span><br><span class="line">&lt;/bean&gt;</span><br></pre></td></tr></table></figure></li>
+<li>创建应用上下文 读取数据 <br><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">var context = ClassPathXmlApplicationContext(&quot;Beans.xml&quot;)</span><br><span class="line">var obj: test = context.getBean(&quot;test&quot;) as test</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h1 id="Ioc-容器"><a href="#Ioc-容器" class="headerlink" title="Ioc 容器"></a>Ioc 容器</h1><p>&emsp;&emsp;**IoC <em>Inversion of Control</em> 把创建对象的权利交给框架 **<br>&emsp;&emsp;Spring 容器是 Spring 框架的核心, 容器创建、连接、配置对象, 并管理他们的声明周期.<br>&emsp;&emsp;Spring 容器通过依赖注入 (DI) 来管理组件.</p>
+<center>![Spring 容器](https://img.w3cschool.cn/attachments/image/wk/wkspring/ioc1.jpg)</center>
+<center>Spring IoC 容器利用 Java 的 POJO 类和配置元数据来生成完全配置和可执行的系统或应用程序  
+
+<p><strong>初始化容器-&gt;context.getBean()获取 Bean 的实例</strong></p>
+<h2 id="Spring-提供的两种不同类型的容器"><a href="#Spring-提供的两种不同类型的容器" class="headerlink" title="Spring 提供的两种不同类型的容器"></a>Spring 提供的两种不同类型的容器</h2><ul>
+<li><strong>Spring BeanFactory 容器</strong><br> 最基本的容器, 给 DI 提供了最基本的支持</li>
+<li><strong>Spring ApplicationContext 容器</strong><br>添加了更多企业特定的功能, 如从一个属性文件中解析文本信息的能力, 包括 BeanFactory 容器的所有功能  </li>
+</ul>
+<h2 id="BeanFactory-容器"><a href="#BeanFactory-容器" class="headerlink" title="BeanFactory 容器"></a>BeanFactory 容器</h2><p>&emsp;&emsp;最简单的容器, 主要的功能是为依赖注入 (DI) 提供支持.<br>&emsp;&emsp;最常用的借口实现时 XmlBeanFactory 类, 该容器从一个 XML 文件中读取配置元数据, 由这些元数据来生成一个被配置化的系统或应用<br>&emsp;&emsp;BeanFactory 只在资源宝贵的移动设备或者基于 applet 的应用当中 (用不到了吧 applet凉了)<br><strong>生成一个 XmlBeanFactory 对象</strong> <code>XmlBeanFactory factory = new XmlBeanFactory(new ClassPathResource(&quot;Beans.xml&quot;))</code><br>通过 ClassPathResource 加载路径 CLASSPATH 下可用的 bean 配置文件</p>
+<h2 id="ApplicationContext-容器"><a href="#ApplicationContext-容器" class="headerlink" title="ApplicationContext 容器"></a>ApplicationContext 容器</h2><p>&emsp;&emsp;除了可以加载配置文件中定义的 bean, 将所有的 bean 集中到一起进行分配外, 还增加了企业所需要的功能, 比如, 从属性文件中解析文本信息和事件传递给所指定的监听器.<br>&emsp;&emsp;在 org.springframework.context.ApplicationContextinterface 接口中定义<br>最常用的 ApplicationContext 接口实现:  </p>
+<ul>
+<li><strong>FileSystemXmlApplicationContext</strong><br>该容器从 XML 文件中加载已被定义的 bean, 需要给构造器提供 XML 文件的完整路径</li>
+<li><strong>ClassPathXmlApplicationContext</strong><br>不需要提供 XML 文件的完整路径, 只需正确的配置 CLASSPATH 即可.</li>
+<li><strong>WebXmlApplicationContext</strong><br>从一个 web 应用程序的范围内加载在 XML 文件中已被定义的 bean</li>
+</ul>
+<h2 id="Bean-定义"><a href="#Bean-定义" class="headerlink" title="Bean 定义"></a>Bean 定义</h2><p>&emsp;&emsp;bean 对象由容器管理, 由容器提供的配置元数据创建.<br><strong>三种配置方式:</strong></p>
+<ul>
+<li>xml 的配置文件</li>
+<li>注解</li>
+<li>java</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th align="left">属性</th>
+<th align="left">描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">class</td>
+<td align="left">强制性要求, 制定用来创建 bean 的bean类</td>
+</tr>
+<tr>
+<td align="left">name</td>
+<td align="left">指定唯一的 bean 标识符, 可以使用 ID 和/或 name 属性来指定 bean 的标识符</td>
+</tr>
+<tr>
+<td align="left">scope</td>
+<td align="left">指定作用域</td>
+</tr>
+<tr>
+<td align="left">constructor-arg/<br>properties/<br>autowirin mode</td>
+<td align="left">用来注入依赖关系 (以后会讨论)</td>
+</tr>
+<tr>
+<td align="left">lazy-initialization mode</td>
+<td align="left">延迟初始化, 在第一次被请求时创建实例 (而不是启动时)</td>
+</tr>
+<tr>
+<td align="left">init-method</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left">destroy-method</td>
+<td align="left"></td>
+</tr>
+</tbody></table>
+<h2 id="Bean-作用域"><a href="#Bean-作用域" class="headerlink" title="Bean 作用域"></a>Bean 作用域</h2><ul>
+<li><strong>singleton</strong><br> 将 bean 的定义限制在每一个 Spring IoC 容器中, 单一实例 (返回同一个实例) (默认)</li>
+<li><strong>protype</strong> <br> 每次需要的时候都返回一个新的实例</li>
+<li><strong>只在 web-aware Spring ApplicationContext 中有效的作用域</strong><ul>
+<li><strong>request</strong></li>
+<li><strong>session</strong></li>
+<li><strong>global-session</strong> (全局会话)</li>
+</ul>
+</li>
+</ul>
+<h2 id="Bean-生命周期"><a href="#Bean-生命周期" class="headerlink" title="Bean 生命周期"></a>Bean 生命周期</h2><h3 id="init-method"><a href="#init-method" class="headerlink" title="init-method"></a>init-method</h3><p>org.springframework.beans.factory.InitializingBean 接口指定一个单一的方法：<br><code>void afterPropertiesSet() throws Exception</code><br>可以使 Bean 类实现这个接口  </p>
+<p>或者在 xml 配置文件中 通过 init-method 指定一个返回值为空的函数<br><code>&lt;bean id=&quot;exampleBean&quot; class=&quot;examples.ExampleBean&quot; init-method=&quot;init&quot;</code>  </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">public class ExampleBean&#123;</span><br><span class="line">  public void init()&#123;</span><br><span class="line">    // do some initialization work</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="destroy-method"><a href="#destroy-method" class="headerlink" title="destroy-method"></a>destroy-method</h3><p>与 init-method 相同<br>org.springframework.beans.factory.DisposableBean 接口指定一个单一的方法：<br><code>void destroy() throws Exception;</code></p>
+<p>&emsp;&emsp;如果在非 web 应用程序环境中使用 Spring 的 IoC 容器；例如在丰富的客户端桌面环境中；那么在 JVM 中你要注册关闭 hook。这样做可以确保正常关闭，为了让所有的资源都被释放，可以在单个 beans 上调用 destroy 方法。</p>
+<p>&emsp;&emsp;建议不要使用 InitializingBean 或者 DisposableBean 的回调方法，因为 XML 配置在命名方法上提供了极大的灵活性。 (W3C School原文, 然而我觉得不行  )</p>
+<h3 id="默认的初始化和销毁方法"><a href="#默认的初始化和销毁方法" class="headerlink" title="默认的初始化和销毁方法"></a>默认的初始化和销毁方法</h3><p>在 xml 文件的开端为所有在该配置文件中注册的 Bean 指定默认的 初始化和销毁方法  </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&lt;beans xmlns=&quot;http://www.springframework.org/schema/beans&quot;</span><br><span class="line">    xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span><br><span class="line">    xsi:schemaLocation=&quot;http://www.springframework.org/schema/beans</span><br><span class="line">    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd&quot;</span><br><span class="line">    default-init-method=&quot;init&quot;</span><br><span class="line">    default-destroy-method=&quot;destroy&quot;&gt;</span><br><span class="line"></span><br><span class="line">   &lt;bean id=&quot;...&quot; class=&quot;...&quot;&gt;</span><br><span class="line">       &lt;!-- collaborators and configuration for this bean go here --&gt;</span><br><span class="line">   &lt;/bean&gt;</span><br><span class="line"></span><br><span class="line">&lt;/beans&gt;</span><br></pre></td></tr></table></figure>
+<h2 id="后置处理器"><a href="#后置处理器" class="headerlink" title="后置处理器"></a>后置处理器</h2><p>&emsp;&emsp;BeanPostProcessor 接口定义了许多回调方法, 贯穿 Bean 各个生命周期的前后 (类似过滤器?)<br>&emsp;&emsp;可配置多个 BeanPostProcessor, 通过 Ordered 接口提供的 order 属性来确定执行顺序<br>&emsp;&emsp;BeanPostProcessor 可以对 bean（或对象）实例进行操作，这意味着 Spring IoC 容器实例化一个 bean 实例，然后 BeanPostProcessor 接口进行它们的工作。<br>&emsp;&emsp;** 声明的时候不必指明 id/name (指明了也没实际作用) **</p>
+<h2 id="定义继承"><a href="#定义继承" class="headerlink" title="定义继承"></a>定义继承</h2><p>&emsp;&emsp;与 java类的继承无关, 但概念相同.<br>&emsp;&emsp;<strong>通过指定 parent 属性实现</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;bean id=&quot;helloWorld&quot; class=&quot;com.tutorialspoint.HelloWorld&quot;&gt;</span><br><span class="line">      &lt;property name=&quot;message1&quot; value=&quot;Hello World!&quot;/&gt;</span><br><span class="line">      &lt;property name=&quot;message2&quot; value=&quot;Hello Second World!&quot;/&gt;</span><br><span class="line">&lt;/bean&gt;</span><br><span class="line">&lt;bean id=&quot;helloIndia&quot; class=&quot;com.tutorialspoint.HelloIndia&quot; parent=&quot;helloWorld&quot;&gt;</span><br><span class="line">      &lt;property name=&quot;message1&quot; value=&quot;Hello India!&quot;/&gt;</span><br><span class="line">      &lt;property name=&quot;message3&quot; value=&quot;Namaste India!&quot;/&gt;</span><br><span class="line">&lt;/bean&gt;</span><br></pre></td></tr></table></figure>
+<p>** 类文件中 两个类可以无继承关系, <em>定义的继承?</em>**</p>
+<h3 id="定义模板"><a href="#定义模板" class="headerlink" title="定义模板"></a>定义模板</h3><p>可以创建一个 Bean 定义模板，被其他子 bean 定义使用。在定义一个 Bean 定义模板时，不指定 class 属性，而应该指定带 true 值的抽象属性，如下所示：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span><br><span class="line"></span><br><span class="line">&lt;beans xmlns=&quot;http://www.springframework.org/schema/beans&quot;</span><br><span class="line">    xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span><br><span class="line">    xsi:schemaLocation=&quot;http://www.springframework.org/schema/beans</span><br><span class="line">    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd&quot;&gt;</span><br><span class="line"></span><br><span class="line">   &lt;bean id=&quot;beanTeamplate&quot; abstract=&quot;true&quot;&gt;</span><br><span class="line">      &lt;property name=&quot;message1&quot; value=&quot;Hello World!&quot;/&gt;</span><br><span class="line">      &lt;property name=&quot;message2&quot; value=&quot;Hello Second World!&quot;/&gt;</span><br><span class="line">      &lt;property name=&quot;message3&quot; value=&quot;Namaste India!&quot;/&gt;</span><br><span class="line">   &lt;/bean&gt;</span><br><span class="line"></span><br><span class="line">   &lt;bean id=&quot;helloIndia&quot; class=&quot;com.tutorialspoint.HelloIndia&quot; parent=&quot;beanTeamplate&quot;&gt;</span><br><span class="line">      &lt;property name=&quot;message1&quot; value=&quot;Hello India!&quot;/&gt;</span><br><span class="line">      &lt;property name=&quot;message3&quot; value=&quot;Namaste India!&quot;/&gt;</span><br><span class="line">   &lt;/bean&gt;</span><br><span class="line">&lt;/beans&gt;</span><br></pre></td></tr></table></figure>
+<h2 id="依赖注入-DI-Dependency-Injection"><a href="#依赖注入-DI-Dependency-Injection" class="headerlink" title="依赖注入  DI ( Dependency Injection)"></a>依赖注入  DI ( Dependency Injection)</h2><p>&emsp;&emsp;当一个 bean 实例引用到了另外一个 bean 实例时 Spring 帮助我们创建依赖 bean 实例并传递 (注入) 到另一个 bean 中  </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">// TextEditor 依赖于 SpellChecker</span><br><span class="line">pulic class TextEditor&#123;</span><br><span class="line">  private SpellChecker spellChecker</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="基于构造函数的依赖注入"><a href="#基于构造函数的依赖注入" class="headerlink" title="基于构造函数的依赖注入"></a>基于构造函数的依赖注入</h3><p>&emsp;&emsp;在构造函数中传递引用对象的值</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- Definition for textEditor bean --&gt;</span><br><span class="line">&lt;bean id=&quot;textEditor&quot; class=&quot;com.tutorialspoint.TextEditor&quot;&gt;</span><br><span class="line">  &lt;!-- 显式指明 构造函数 参数 (按照声明顺序)--&gt;</span><br><span class="line">  &lt;constructor-arg ref=&quot;spellChecker&quot;/&gt;</span><br><span class="line">&lt;/bean&gt;</span><br><span class="line"></span><br><span class="line">&lt;!-- Definition for spellChecker bean --&gt;</span><br><span class="line">&lt;bean id=&quot;spellChecker&quot;   class=&quot;com.tutorialspoint.SpellChecker&quot;&gt;</span><br><span class="line">&lt;/bean&gt;</span><br><span class="line">```  </span><br><span class="line">如果使用 type 属性显式指定了构造函数参数的类型, 容器也可以与简单类型匹配的类型.如:  </span><br></pre></td></tr></table></figure>
+<beans>
+  <bean id="exampleBean" class="examples.ExampleBean">
+    <constructor-arg type="int" value="2001">
+    <constructor-arg type="java.lang.String" value="Zara">
+  </constructor-arg></constructor-arg></bean>
+</beans>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">最好的在构造函数中传递引用的方式, 使用 index 来显式指定构造函数参数的索引.  </span><br></pre></td></tr></table></figure>
+<beans>
+
+   <bean id="exampleBean" class="examples.ExampleBean">
+      <constructor-arg index="0" value="2001">
+      <constructor-arg index="1" value="Zara">
+   </constructor-arg></constructor-arg></bean>
+
+</beans>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">** 传递引用用 *ref*, 传递值用 *value***</span><br><span class="line">### 基于设置函数的依赖注入  </span><br><span class="line">&amp;emsp;&amp;emsp;`&lt;property name=&quot;&quot; value/ref=&quot;&quot;`  </span><br><span class="line">&amp;emsp;&amp;emsp;看做 bean 的一个属性  </span><br><span class="line">#### 使用 p-namespace 重写 property 配置</span><br></pre></td></tr></table></figure>
+<bean id="john-classic" class="com.example.Person">
+     <property name="name" value="John Doe">
+     <property name="spouse" ref="jane">
+</property></property></bean>
+<!-- p-namespace 重写 -->
+<bean id="john-classic" class="com.example.Person" p:name="John Doe" p:spouse-ref="jane" <figure><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">**-ref** 部分表明这不是一个直接的值, 而是对另一个 bean 的引用.</span><br><span class="line">### 使用内部  Bean 注入  </span><br><span class="line">inner beans -----&gt; 在其他 bean 的范围内定义的 bean</span><br></pre></td></tr></table>
+<bean id="textEditor" class="com.tutorialspoint.TextEditor">
+      <property name="spellChecker">
+         <bean id="spellChecker" class="com.tutorialspoint.SpellChecker">
+       </bean></property>
+</bean>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">### 注入集合  </span><br><span class="line">&amp;emsp;&amp;emsp;当属性是 List, Set, Map, Props 时 可以使用如下</span><br></pre></td></tr></table></figure>
+  <property name="addressList">
+    <list>
+      <value>value1</value>
+    </list>
+  </property>
+  ...
+    <map>
+      <entry key="1" value="VALUE1">
+    </entry></map>
+  ...
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"># 自动装配</span><br><span class="line">## byName (id/name)</span><br><span class="line">&amp;emsp;&amp;emsp;这种模式由属性名称指定自动装配。Spring 容器看作 beans，在 XML 配置文件中 beans 的 auto-wire 属性设置为 byName。然后，它尝试将它的属性与配置文件中定义为相同名称的 beans 进行匹配和连接。如果找到匹配项，它将注入这些 beans，否则，它将抛出异常。  </span><br><span class="line">&amp;emsp;&amp;emsp;例如，在配置文件中，如果一个 bean 定义设置为自动装配 byName，并且它包含 spellChecker 属性（即，它有一个 setSpellChecker(...) 方法），那么 Spring 就会在 配置文件 beans.xml 中查找定义名为 spellChecker 的 bean，并且用它来设置这个属性。(基于 set)仍然可以使用 &lt;property&gt; 标签连接其余的属性。下面的例子将说明这个概念。  </span><br><span class="line">## byType  (class)</span><br><span class="line">&amp;emsp;&amp;emsp;这种模式由属性类型指定自动装配。Spring 容器看作 beans，在 XML 配置文件中 beans 的 autowire 属性设置为 byType。然后，如果它的 type 恰好与配置文件中 beans 中的一个相匹配，它将尝试匹配和连接它的属性。如果找到匹配项，它将注入这些 beans，否则，它将抛出异常。</span><br><span class="line">## 由构造函数自动装配</span><br><span class="line">&amp;emsp;&amp;emsp;与 byType 相似，它应用于构造器参数。配置文件中 beans 的 autowire 属性设置为 constructor。会尝试把它的构造函数的参数与配置文件中 beans 名称中的一个进行匹配和连线。如果找到匹配项，它会注入这些 bean，否则，它会抛出异常。</span><br><span class="line"># 注解</span><br><span class="line">&amp;emsp;&amp;emsp;使用 @Autowired 注解, 必须事先声明 AutowiredAnnotationBeanPostProcesser 的 Bean  </span><br><span class="line">&amp;emsp;&amp;emsp;`&lt;bean class=&quot;org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcesser&quot;/&gt;`  </span><br><span class="line">&amp;emsp;&amp;emsp;类似的,   </span><br><span class="line">&amp;emsp;&amp;emsp;@Required ----&gt; RequiredAnnotationBeanPostProcessor  </span><br><span class="line">&amp;emsp;&amp;emsp;@Resource, @PostConstruct, @PreDestroy ----&gt; CommonAnnotationBeanPostProcessor  </span><br><span class="line">&amp;emsp;&amp;emsp;@PersistenceContext ----&gt; PersistenceAnnotationBeanPostProcessor  </span><br><span class="line">**可以使用 &lt;context:annotation-config/&gt; 隐式地向 Spring 容器注册以上四个 Bean**  </span><br><span class="line">另外, 在使用注解的时候一辩会配置扫描包路径选项:  </span><br><span class="line">`&lt;context:component-scan base-package=&quot;pack.pack&quot;/&gt;`  </span><br><span class="line">使用该配置时也包含了自动注入上述 processor 的功能</span><br><span class="line"></span><br><span class="line">## @Required 注解</span><br><span class="line">&amp;emsp;&amp;emsp;应用于 **set** 方法, 表明该属性必须必须在 XML 中配置`&lt;property name=&quot; &quot;, value/ref=&quot;&quot;&gt;`, 否则容器就会抛出一个 `BeanInitialiaationException` 异常</span><br></pre></td></tr></table></figure>
+@Required
+public void setXXX(Type xxx){
+}
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">## @Autowired 注解</span><br><span class="line">&amp;emsp;&amp;emsp;可以对属性, 方法及构造函数进行标注, 完成自动装配的动作  </span><br><span class="line">&amp;emsp;&amp;emsp;首先 byType, 如果找到多个, 则 byName  可以使用 @Qualifier(&quot;name&quot;) 指定</span><br><span class="line">&amp;emsp;&amp;emsp;如果查询的结果为空, 则会抛出异常, 可用 @Autowired(required=false) 解决</span><br><span class="line"></span><br><span class="line">## 基于 java 的配置  </span><br><span class="line">&amp;emsp;&amp;emsp; @Configuration 和 @Bean 注解  </span><br><span class="line">### @Configuration 注解    </span><br><span class="line">&amp;emsp;&amp;emsp;表示这个类可以使用 Spring IoC 容器作为 Bean 定义的来源  </span><br><span class="line">### @Bean 注解  </span><br><span class="line">&amp;emsp;&amp;emsp;返回一个对象, 被注册成上下文 Bean.</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+@Configuration
+public class HelloWorldConfig {
+   @Bean
+   public HelloWorld helloWorld(){
+      return new HelloWorld();
+   }
+}
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">等同于  </span><br></pre></td></tr></table></figure>
+<beans>
+   <bean id="helloWorld" class="com.tutorialspoint.HelloWorld">
+</bean></beans>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">## @Import 注解  </span><br><span class="line">&amp;emsp;&amp;emsp;允许从另一个配置类中加载 @Bean 定义  </span><br></pre></td></tr></table></figure>
+@Configuration
+@Import(ConfigA.class)
+public class ConfigB {
+   @Bean
+   public B a() {
+      return new A();
+   }
+}
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&amp;emsp;&amp;emsp;实例化上下文时, 只需要提供 ConfigB 类  </span><br></pre></td></tr></table></figure>
+public static void main(String[] args) {
+   ApplicationContext ctx =
+   new AnnotationConfigApplicationContext(ConfigB.class);
+   // now both beans A and B will be available...
+   A a = ctx.getBean(A.class);
+   B b = ctx.getBean(B.class);
+}
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">## 声明周期回调  </span><br><span class="line">`@Bean(initMethod = &quot;&quot;, destroyMethod = &quot;&quot;)`  </span><br><span class="line">## 指定 Bean 的范围   </span><br><span class="line">&amp;emsp;&amp;emsp;默认范围是单实例, 用 @Scope 注解方法修改</span><br></pre></td></tr></table></figure>
+@Scope("prototype")
+   public Foo foo() {
+      return new Foo();
+   }
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">## 事件处理</span><br><span class="line">&amp;emsp;&amp;emsp;当处理 bean 时, ApplicationContext 发布某些事件.  </span><br><span class="line">&amp;emsp;&amp;emsp;通过 AppliccationEvent 类和 ApplicationListener 接口处理事件  </span><br><span class="line"></span><br><span class="line">序号|Spring 内置事件|描述</span><br><span class="line">:-:|:-:|:-</span><br><span class="line">1|ContextRefreshedEvent| ApplicationContext 被初始化或刷新时发布</span><br><span class="line">2|ContextStartedEvent|当使用 ConfigurableApplicationContext 接口中的 start() 方法启动 ApplicationContext 时发布.可以调查数据库, 或者在接受到这个事件后重启任何停止的应用程序.</span><br><span class="line">3|ContextStoppedEvent|使用 ConfigurableApplicationContext 接口中的 stop() 方法停止 ApplicationContext 时发布(~~生命周期??~~)</span><br><span class="line">4|ContextClosedEvent| 使用~接口的 close() 关闭 ApplicationContext 时发布. 此时该上下文到达生命周期末端, 不能被刷新或者重启</span><br><span class="line">5|RequestHandledEvent| web-specific 事件, 告诉所有 bean HTTP 请求已经被处理  </span><br><span class="line"></span><br><span class="line">**Spring 事件处理是单线程的,所以如果一个事件被发布，直至并且除非所有的接收者得到的该消息，该进程被阻塞并且流程将不会继续.**</span><br><span class="line"></span><br><span class="line">### 监听上下文事件  </span><br><span class="line">&amp;emsp;&amp;emsp;需实现 ApplicationListener 接口  </span><br><span class="line">&amp;emsp;&amp;emsp;[自定义事件](https://www.w3cschool.cn/wkspring/7jho1ict.html)</span><br><span class="line"></span><br><span class="line"># Spring 框架的 AOP  </span><br><span class="line">AOP,Aspect Oriented Programming 面向切面编程.  </span><br><span class="line">在运行时, 动态地将代码切入到指定类的指定方法, 指定位置上的变成思想就是面向切面的编程  </span><br><span class="line">切入到指定类指定方法的代码片段称为切面，而切入到哪些类、哪些方法则叫切入点。  </span><br><span class="line">Spring AOP 模块提供拦截器来拦截一个应用程序，例如，当执行一个方法时，你可以在方法执行之前或之后添加额外的功能。  </span><br><span class="line"></span><br><span class="line">[** AOP 术语**](https://www.cnblogs.com/yangyquin/p/5462488.html)  </span><br><span class="line">1. **切面(Aspect)**&lt;br&gt; 一个关注点的模块化, 这个关注点可能会横切多个对象.</span><br><span class="line">2. **连接点(Joinpoint)**&lt;br&gt; 程序能够应用通知/增强 (Advice) 的一个时机, 例如方法被调用时,异常被抛出时等等</span><br><span class="line">3. **通知(Advice)**&lt;br&gt; 在切面的某个特定个的连接点上执行的动作.  </span><br><span class="line">4. **切入点(Pointcut)**&lt;br&gt; 匹配连接点的断言. 通知和一个切入点表达式关联, 并在满足这个切入点的连接点上运行</span><br><span class="line">5. **引入(Introduction)**&lt;br&gt; 用来给一个类型声明额外的方法或属性.  </span><br><span class="line">6. **目标对象(Target Object)**&lt;br&gt; 被切面所通知的对象.</span><br><span class="line">7. **AOP 代理(AOP Proxy)** &lt;br&gt; AOP 框架创建的对象, 用来实现切面契约( 例如通知方法执行等等 )</span><br><span class="line">8. **织入(Weaving)**&lt;br&gt;把切面连接到其他的应用程序类型或者对象上, 并创建一个被通知的对象.  </span><br><span class="line"></span><br><span class="line">**通知类型**  </span><br><span class="line">+ 前置通知 **Before advice**  : 在某连接点之前执行的通知. 不能阻止连接点之前的执行流程(除非抛出一个异常).</span><br><span class="line">+ 后置通知 **After returning advice**: 在某个连接点正常完成后执行的通知.</span><br><span class="line">+ 异常通知 **After throwing advice** : 在方法抛出异常退出时执行的通知.</span><br><span class="line">+ 最终通知 **After (finally) advice**: 当某个连接点退出时执行的通知 (不论时正常返回还是异常退出)</span><br><span class="line">+ 环绕通知 **Around Advice**: 环绕通知可以在方法调用前后完成自定义的行为, 也会 选择是否继续执行连接点或者直接返回它自己的返回值或抛出异常来结束执行  </span><br><span class="line"></span><br><span class="line">## Spring AOP 的功能和目标  </span><br><span class="line">**使用纯 Java 实现 不需专门的编译过程, 不需控制类装载器层次 **  </span><br><span class="line">**仅支持使用方法调用作为连接点** 如果需要把成员变量的访问和更新也作为通知的连接点, 可以使用其他语言, 如 AspectJ**</span><br><span class="line"></span><br><span class="line">## Spring 提供的四种实现 AOP 的方式  </span><br><span class="line"></span><br><span class="line">1. 经典的基于代理的 AOP</span><br><span class="line">2. @AspectJ 注解驱动的切面</span><br><span class="line">3. 纯 [POJO](https://www.cnblogs.com/chengzixin/p/6698435.html) 切面</span><br><span class="line">4. 注入式 AspectJ 切面  </span><br><span class="line"></span><br><span class="line">## 基于代理的 AOP  </span><br><span class="line">1. 创建通知: 实现接口</span><br><span class="line">  + Before(前)  org.apringframework.aop.MethodBeforeAdvice</span><br><span class="line">  + After-returning(返回后) org.springframework.aop.AfterReturningAdvice</span><br><span class="line">  + After-throwing(抛出后) org.springframework.aop.ThrowsAdvice</span><br><span class="line">  + Arround(周围) org.aopaliance.intercept.MethodInterceptor</span><br><span class="line">2. 定义切入点和通知者: 在 Spring 配置文件中配置这些信息  </span><br><span class="line">3. 使用 ProxyFactoryBean 来生成代理  </span><br><span class="line"></span><br><span class="line"></span><br><span class="line">**举个栗子:**  </span><br><span class="line">**AOPBeanConfig.xml**</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemalocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+<pre><code>&lt;bean id=&quot;sleepHelper&quot; class=&quot;AOP.SleepHelper&quot;/&gt;
+&lt;bean id=&quot;human&quot; class=&quot;AOP.Human&quot;/&gt;
+&lt;!--使用 org.springframework.aop.support.JdkRegexpMethodPointcut 来定义正则表达式切入点--&gt;
+&lt;bean id=&quot;sleepHelperPointcut&quot; class=&quot;org.springframework.aop.support.JdkRegexpMethodPointcut&quot;&gt;
+    &lt;!--pattern 指定了正则表达式, 匹配所有 sleep 方法--&gt;
+    &lt;property name=&quot;pattern&quot; value=&quot;.*sleep&quot;/&gt;
+
+&lt;/bean&gt;
+&lt;!--将切入点和通知结合起来--&gt;
+&lt;bean id=&quot;sleepHelperAdvisor&quot; class=&quot;org.springframework.aop.support.DefaultPointcutAdvisor&quot;&gt;
+    &lt;property name=&quot;advice&quot; ref=&quot;sleepHelper&quot;/&gt;
+    &lt;property name=&quot;pointcut&quot; ref=&quot;sleepHelperPointcut&quot;/&gt;
+&lt;/bean&gt;
+
+&lt;bean id=&quot;humanProxy&quot; class=&quot;org.springframework.aop.framework.ProxyFactoryBean&quot;&gt;
+    &lt;property name=&quot;target&quot; ref=&quot;human&quot;/&gt;
+    &lt;property name=&quot;interceptorNames&quot; value=&quot;sleepHelperAdvisor&quot;/&gt;
+    &lt;property name=&quot;proxyInterfaces&quot; value=&quot;AOP.Sleepable&quot;/&gt;
+&lt;/bean&gt;
+</code></pre>
+</beans>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">```</span><br><span class="line">package AOP;</span><br><span class="line"></span><br><span class="line">public class Human implements Sleepable &#123;</span><br><span class="line">    @Override</span><br><span class="line">    public void sleep() &#123;</span><br><span class="line">        System.out.println(&quot;睡觉!睡觉!睡觉!&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">package AOP;</span><br><span class="line"></span><br><span class="line">public interface Sleepable &#123;</span><br><span class="line">    void sleep();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">package AOP;</span><br><span class="line">/*</span><br><span class="line">* 定义 AOP 中的通知类</span><br><span class="line">* */</span><br><span class="line"></span><br><span class="line">import org.springframework.aop.AfterReturningAdvice;</span><br><span class="line">import org.springframework.aop.MethodBeforeAdvice;</span><br><span class="line"></span><br><span class="line">import java.lang.reflect.Method;</span><br><span class="line"></span><br><span class="line">public class SleepHelper implements MethodBeforeAdvice, AfterReturningAdvice &#123;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void afterReturning(Object returnValue, Method method, Object[] args, Object target) throws Throwable &#123;</span><br><span class="line">        System.out.println(&quot;起床之前穿衣服&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void before(Method method, Object[] args, Object target) throws Throwable &#123;</span><br><span class="line">        System.out.println(&quot;睡觉之前脱衣服&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">```  </span><br><span class="line">**运行结果**</span><br></pre></td></tr></table></figure>
+睡觉之前脱衣服
+睡觉!睡觉!睡觉!
+起床之穿衣服
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">### 自动代理  </span><br><span class="line">&amp;emsp;&amp;emsp;让切点和通知进行自动匹配  </span><br><span class="line">**配置文件**:</span><br></pre></td></tr></table></figure>
+<bean id="sleepHelper" class="test.spring.aop.bean.SleepHelper">
+  </bean>
+  <bean id="sleepAdvisor" class="org.springframework.aop.support.RegexpMethodPointcutAdvisor">
+    <property name="advice" ref="sleepHelper">
+    <property name="pattern" value=".*sleep">
+  </property></property></bean>
+  <bean id="human" class="test.spring.aop.bean.Human">
+  </bean>
+  <bean class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator">
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">```</span><br><span class="line">public class Test &#123;</span><br><span class="line"></span><br><span class="line">    public static void main(String[] args)&#123;</span><br><span class="line">        ApplicationContext appCtx = new ClassPathXmlApplicationContext(&quot;applicationContext.xml&quot;);</span><br><span class="line">        Sleepable sleeper = (Sleepable)appCtx.getBean(&quot;human&quot;);</span><br><span class="line">        sleeper.sleep();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">```  </span><br><span class="line">&amp;emsp;&amp;emsp;声明 *org.springframework.aop.framework.autoproxy.DefaultPointcutAdvisor* 就能为方法匹配的 bean 自动创建代理.  </span><br><span class="line"></span><br><span class="line">## 使用 AspectJ 提供的注解</span><br></pre></td></tr></table></figure>
+package AOP;
+/*
+* 定义 AOP 中的通知类
+* @Aspect的注解来标识切面
+* @Pointcut指定切点
+* @Before 和 @AfterReturning 指定了运行时的通知 (在注解中传入切点的名称)
+* */
+
+<p>import org.aspectj.lang.annotation.AfterReturning;<br>import org.aspectj.lang.annotation.Aspect;<br>import org.aspectj.lang.annotation.Before;<br>import org.aspectj.lang.annotation.Pointcut;<br>@Aspect<br>public class SleepHelper {</p>
+<pre><code>public SleepHelper()&#123;
+
+&#125;
+
+@Pointcut(&quot;execution(* *.sleep())&quot;)
+public void sleeppoint()&#123;&#125;
+
+@Before(&quot;sleeppoint()&quot;)
+public void beforeSleep()&#123;
+    System.out.println(&quot;睡觉前要脱衣服!&quot;);
+&#125;
+
+@AfterReturning(&quot;sleeppoint()&quot;)
+public void afterSleep()&#123;
+    System.out.println(&quot;睡醒了要穿衣服！&quot;);
+&#125;
+</code></pre>
+<p>}</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">然后我们在Spring配置文件上下点功夫,首先是增加AOP的XML命名空间和声明相关schema</span><br></pre></td></tr></table></figure>
+<p>命名空间:<br>xmlns:aop=”<a target="_blank" rel="noopener" href="http://www.springframework.org/schema/aop&quot;">http://www.springframework.org/schema/aop&quot;</a><br>schema声明:<br><a target="_blank" rel="noopener" href="http://www.springframework.org/schema/aop">http://www.springframework.org/schema/aop</a><br><a target="_blank" rel="noopener" href="http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">http://www.springframework.org/schema/aop/spring-aop-2.0.xsd</a></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">然后加上这个标签:  </span><br><span class="line">`&lt;aop:aspectj-autoproxy/&gt;` 有了这个Spring就能够自动扫描被@Aspect标注的切面了</span><br><span class="line"></span><br><span class="line">## 使用Spring来定义纯粹的POJO切面</span><br><span class="line">前面我们用到了&lt;aop:aspectj-autoproxy/&gt;标签,Spring在aop的命名空间里面还提供了其他的配置元素:  </span><br><span class="line">`&lt;aop:advisor&gt; `定义一个AOP通知者  </span><br><span class="line">`&lt;aop:after&gt; `后通知  </span><br><span class="line">`&lt;aop:after-returning&gt;` 返回后通知   </span><br><span class="line">`&lt;aop:after-throwing&gt;` 抛出后通知  </span><br><span class="line">`&lt;aop:around&gt;` 周围通知  </span><br><span class="line">`&lt;aop:aspect&gt;` 定义一个切面  </span><br><span class="line">`&lt;aop:before&gt;` 前通知   </span><br><span class="line">`&lt;aop:config&gt;`  顶级配置元素，类似于&lt;beans&gt;这种东西  </span><br><span class="line">`&lt;aop:pointcut&gt;` 定义一个切点  </span><br><span class="line"></span><br><span class="line">我们用AOP标签来实现睡觉这个过程:</span><br><span class="line">代码不变，只是修改配置文件,加入AOP配置即可:</span><br></pre></td></tr></table></figure>
+<p><a href="aop:config">aop:config</a><br>    &lt;aop:aspect ref=”sleepHelper”&gt;<br>    &lt;aop:before method=”beforeSleep” pointcut=”execution(* *.sleep(..))”/&gt;<br>    &lt;aop:after method=”afterSleep” pointcut=”execution(* *.sleep(..))”/&gt;<br>    <br></p>
+<pre><code>
+</code></pre>
+</bean></bean></center> 
+      <!-- reward -->
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <footer class="article-footer">
+       
+<div class="share-btn">
+      <span class="share-sns share-outer">
+        <i class="ri-share-forward-line"></i>
+        分享
+      </span>
+      <div class="share-wrap">
+        <i class="arrow"></i>
+        <div class="share-icons">
+          
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="ri-weibo-fill"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="ri-wechat-fill"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="ri-qq-fill"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="ri-douban-line"></i>
+          </a>
+          <!-- <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a> -->
+          
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="ri-facebook-circle-fill"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="ri-twitter-fill"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="ri-google-fill"></i>
+          </a>
+        </div>
+      </div>
+</div>
+
+<div class="wx-share-modal">
+    <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://shiweiwong.github.io/notes/Spring.html" alt="微信分享二维码">
+    </div>
+</div>
+
+<div id="share-mask"></div>  
+    </footer>
+  </div>
+
+   
+  <nav class="article-nav">
+    
+      <a href="/vscode/%E6%8F%92%E4%BB%B6.html" class="article-nav-link">
+        <strong class="article-nav-caption">上一篇</strong>
+        <div class="article-nav-title">
+          
+            vscode 可用插件
+          
+        </div>
+      </a>
+    
+    
+      <a href="/notes/java_web.html" class="article-nav-link">
+        <strong class="article-nav-caption">下一篇</strong>
+        <div class="article-nav-title">JavaWeb</div>
+      </a>
+    
+  </nav>
+
+  
+   
+     
+</article>
+
+</section>
+      <footer class="footer">
+  <div class="outer">
+    <ul>
+      <li>
+        Copyrights &copy;
+        2021-2023
+        <i class="ri-heart-fill heart_icon"></i> shiweiwong
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+      </li>
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      <li>
+        <!-- cnzz统计 -->
+        
+        <script type="text/javascript" src='https://s9.cnzz.com/z_stat.php?id=1278069914&amp;web_id=1278069914'></script>
+        
+      </li>
+    </ul>
+  </div>
+ <script src='https://cdn.jsdelivr.net/npm/mermaid@10.3.0/+esm'></script> 
+</footer>
+    
+    </main>
+    <div class="float_btns">
+      <div class="totop" id="totop">
+  <i class="ri-arrow-up-line"></i>
+</div>
+
+<div class="todark" id="todark">
+  <i class="ri-moon-line"></i>
+</div>
+
+    </div>
+    <aside class="sidebar on">
+      <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="/images/ayer-side.svg" alt="Shiweiwong&#39;s Blog"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/">主页</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">归档</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/categories">分类</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/tags">标签</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/friends">友链</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/about">关于我</a>
+    </li>
+    
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      
+      <a class="nav-item-link nav-item-search"  title="搜索">
+        <i class="ri-search-line"></i>
+      </a>
+      
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+    </aside>
+    <div id="mask"></div>
+
+<!-- #reward -->
+<div id="reward">
+  <span class="close"><i class="ri-close-line"></i></span>
+  <p class="reward-p"><i class="ri-cup-line"></i>请我喝杯咖啡吧~</p>
+  <div class="reward-box">
+    
+    <div class="reward-item">
+      <img class="reward-img" src="https://cdn.jsdelivr.net/gh/Shen-Yu/cdn/img/alipay.jpg">
+      <span class="reward-type">支付宝</span>
+    </div>
+    
+    
+    <div class="reward-item">
+      <img class="reward-img" src="https://cdn.jsdelivr.net/gh/Shen-Yu/cdn/img/wechat.jpg">
+      <span class="reward-type">微信</span>
+    </div>
+    
+  </div>
+</div>
+    
+<script src="/js/jquery-3.6.0.min.js"></script>
+ 
+<script src="/js/lazyload.min.js"></script>
+
+<!-- Tocbot -->
+ 
+<script src="/js/tocbot.min.js"></script>
+
+<script>
+  tocbot.init({
+    tocSelector: ".tocbot",
+    contentSelector: ".article-entry",
+    headingSelector: "h1, h2, h3, h4, h5, h6",
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    scrollContainer: "main",
+    positionFixedSelector: ".tocbot",
+    positionFixedClass: "is-position-fixed",
+    fixedSidebarOffset: "auto",
+  });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.js"></script>
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.css"
+/>
+<script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js"></script>
+
+<script src="/dist/main.js"></script>
+
+<!-- ImageViewer -->
+ <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css">
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"></script>
+
+<script>
+    function viewer_init() {
+        let pswpElement = document.querySelectorAll('.pswp')[0];
+        let $imgArr = document.querySelectorAll(('.article-entry img:not(.reward-img)'))
+
+        $imgArr.forEach(($em, i) => {
+            $em.onclick = () => {
+                // slider展开状态
+                // todo: 这样不好，后面改成状态
+                if (document.querySelector('.left-col.show')) return
+                let items = []
+                $imgArr.forEach(($em2, i2) => {
+                    let img = $em2.getAttribute('data-idx', i2)
+                    let src = $em2.getAttribute('data-target') || $em2.getAttribute('src')
+                    let title = $em2.getAttribute('alt')
+                    // 获得原图尺寸
+                    const image = new Image()
+                    image.src = src
+                    items.push({
+                        src: src,
+                        w: image.width || $em2.width,
+                        h: image.height || $em2.height,
+                        title: title
+                    })
+                })
+                var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, {
+                    index: parseInt(i)
+                });
+                gallery.init()
+            }
+        })
+    }
+    viewer_init()
+</script> 
+<!-- MathJax -->
+ <script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+      tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+  });
+
+  MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for(i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+  });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.6/unpacked/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script>
+  var ayerConfig = {
+    mathjax: true,
+  };
+</script>
+
+<!-- Katex -->
+
+<!-- busuanzi  -->
+
+<!-- ClickLove -->
+
+<!-- ClickBoom1 -->
+
+<!-- ClickBoom2 -->
+
+<!-- CodeCopy -->
+ 
+<link rel="stylesheet" href="/css/clipboard.css">
+ <script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script>
+  function wait(callback, seconds) {
+    var timelag = null;
+    timelag = window.setTimeout(callback, seconds);
+  }
+  !function (e, t, a) {
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '<i class="ri-file-copy-2-line"></i><span>COPY</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      $(".article pre code").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+      clipboard.on('success', function(e) {
+        let $btn = $(e.trigger);
+        $btn.addClass('copied');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-checkbox-circle-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPIED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-checkbox-circle-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+      clipboard.on('error', function(e) {
+        e.clearSelection();
+        let $btn = $(e.trigger);
+        $btn.addClass('copy-failed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-time-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPY FAILED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-time-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+    }
+    initCopyCode();
+  }(window, document);
+</script>
+ 
+<!-- CanvasBackground -->
+
+<script>
+  if (window.mermaid) {
+    mermaid.initialize({ theme: "forest" });
+  }
+</script>
+
+
+    
+    
+
+  </div>
+</body>
+
+</html>

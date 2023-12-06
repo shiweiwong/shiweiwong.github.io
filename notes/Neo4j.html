@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+
+
+<html lang="zh-CN">
+  
+
+    <head>
+      <meta charset="utf-8" />
+        
+      <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1, maximum-scale=1"
+      />
+      <title>Neo4j |  Shiweiwong&#39;s Blog</title>
+  <meta name="generator" content="hexo-theme-ayer">
+      
+      <link rel="shortcut icon" href="/favicon.ico" />
+       
+<link rel="stylesheet" href="/dist/main.css">
+
+      <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/Shen-Yu/cdn/css/remixicon.min.css"
+      />
+      
+<link rel="stylesheet" href="/css/custom.css">
+ 
+      <script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+       
+ 
+
+      <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-bulma@5.0.1/bulma.min.css"
+      />
+      <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.min.js"></script>
+
+      <!-- mermaid -->
+      
+      <script src="https://cdn.jsdelivr.net/npm/mermaid@8.9.2/dist/mermaid.min.js"></script>
+      
+      <style>
+        .swal2-styled.swal2-confirm {
+          font-size: 1.6rem;
+        }
+      </style>
+    </head>
+  </html>
+</html>
+
+
+<body>
+  <div id="app">
+    
+      
+    <main class="content on">
+      <section class="outer">
+  <article
+  id="post-notes/Neo4j"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h1 class="article-title sea-center" style="border-left:0" itemprop="name">
+  Neo4j
+</h1>
+ 
+
+      
+    </header>
+     
+    <div class="article-meta">
+      <a href="/notes/Neo4j.html" class="article-date">
+  <time datetime="2023-12-06T00:20:40.813Z" itemprop="datePublished">2023-12-06</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/notes/">notes</a>
+  </div>
+  
+<div class="word_count">
+    <span class="post-time">
+        <span class="post-meta-item-icon">
+            <i class="ri-quill-pen-line"></i>
+            <span class="post-meta-item-text"> 字数统计:</span>
+            <span class="post-count">1.8k</span>
+        </span>
+    </span>
+
+    <span class="post-time">
+        &nbsp; | &nbsp;
+        <span class="post-meta-item-icon">
+            <i class="ri-book-open-line"></i>
+            <span class="post-meta-item-text"> 阅读时长≈</span>
+            <span class="post-count">8 分钟</span>
+        </span>
+    </span>
+</div>
+ 
+    </div>
+      
+    <div class="tocbot"></div>
+
+
+
+
+  
+    <div class="article-entry" itemprop="articleBody">
+       
+  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">// 清空所有数据  </span><br><span class="line">MATCH (n)</span><br><span class="line">OPTIONAL MATCH (n)-[r]-()</span><br><span class="line">// OPTIONAL MATCH语句用于搜索模式中描述的匹配项，对于找不到的项，用null代替；在Cypher语句中，类似于SQL语句中的outer join</span><br><span class="line">DELETE n,r</span><br></pre></td></tr></table></figure>
+<h1 id="Neo4j-CQL"><a href="#Neo4j-CQL" class="headerlink" title="Neo4j CQL"></a>Neo4j CQL</h1><table>
+<thead>
+<tr>
+<th align="left">语法元素</th>
+<th align="left">描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">&lt;node-name&gt;</td>
+<td align="left">节点名称。Neo4j 数据库服务器存储节点的根据</td>
+</tr>
+<tr>
+<td align="left">&lt;label-name&gt;</td>
+<td align="left">节点标签，作为内部节点名称的别称，应以此标签名称来访问节点详细信息</td>
+</tr>
+</tbody></table>
+<h2 id="CREATE-命令"><a href="#CREATE-命令" class="headerlink" title="CREATE 命令"></a>CREATE 命令</h2><p>用于创建节点</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">CREATE(</span><br><span class="line">  &lt;node-name&gt;:&lt;label-name1&gt;:&lt;label-name2&gt;:...:&lt;label-namen&gt;</span><br><span class="line">  &#123;</span><br><span class="line">    &lt;Property1-name&gt;:&lt;Property1-Value&gt;</span><br><span class="line">    ...</span><br><span class="line">    &lt;Propertyn-name&gt;:&lt;Propertyn-Value&gt;</span><br><span class="line">  &#125;  </span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<p>用于创建关系</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">CREATE(</span><br><span class="line">  ( &lt;node1-name&gt;:&lt;label1-name&gt; )</span><br><span class="line">  -[ ( &lt;relationship-name&gt;:&lt;relationship-label-name&gt; ) ] -&gt;</span><br><span class="line">  ( &lt;node2-name&gt;:&lt;label2-name&gt; )</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<p>为已有的两个节点创建关系</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">match</span><br><span class="line">  (n:Person&#123;name:&quot;Vic&quot;&#125;),</span><br><span class="line">  (m:Person&#123;name:&quot;Andres&quot;&#125;)</span><br><span class="line">create</span><br><span class="line">  (n)-[r:Friend]-&gt;(m)</span><br><span class="line">return r;</span><br></pre></td></tr></table></figure>
+
+<h2 id="MATCH-命令"><a href="#MATCH-命令" class="headerlink" title="MATCH 命令"></a>MATCH 命令</h2><p>从数据库中选取某些节点或关系，不能单独使用。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">MATCH(</span><br><span class="line">  &lt;node-name&gt;:&lt;label-name&gt;</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<h2 id="RETURN-子句"><a href="#RETURN-子句" class="headerlink" title="RETURN 子句"></a>RETURN 子句</h2><p>检索节点和关系的属性，不能单独使用</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">RETURN</span><br><span class="line">  &lt;node-name&gt;.&lt;property1-name&gt;,</span><br><span class="line">  ...</span><br><span class="line">  &lt;node-name&gt;.&lt;propertyn-name&gt;</span><br></pre></td></tr></table></figure>
+
+<h2 id="MATCH-amp-RETURN-匹配和返回"><a href="#MATCH-amp-RETURN-匹配和返回" class="headerlink" title="MATCH &amp; RETURN 匹配和返回"></a>MATCH &amp; RETURN 匹配和返回</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">MATCH(</span><br><span class="line">  dept:Dept</span><br><span class="line">)RETURN</span><br><span class="line">  dept.deptno,</span><br><span class="line">  dept.dname</span><br></pre></td></tr></table></figure>
+
+<h2 id="WHERE-子句"><a href="#WHERE-子句" class="headerlink" title="WHERE 子句"></a>WHERE 子句</h2><p>用于过滤 MATCH 匹配结果。<br>语法：<code>WHERE &lt;condition&gt; &lt;boolean-operator&gt; &lt;condition&gt;</code><br>&lt;condition&gt; 语法：<code>&lt;property-name&gt; &lt;comparison-operator&gt; &lt;value&gt;</code><br>&lt;boolean-operator&gt;=[AND|OR|NOT|XOR]<br>&lt;comparison-operator&gt;=[=|&lt;&gt;|&lt;|&gt;|&lt;=|&gt;=]  </p>
+<p>例子：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">MATCH</span><br><span class="line">  (emp:Employee)</span><br><span class="line">WHERE</span><br><span class="line">  emp.name = &#x27;Abc&#x27;</span><br><span class="line">RETURN</span><br><span class="line">  emp</span><br></pre></td></tr></table></figure>
+
+<h3 id="使用-WHERE-子句创建关系"><a href="#使用-WHERE-子句创建关系" class="headerlink" title="使用 WHERE 子句创建关系"></a>使用 WHERE 子句创建关系</h3><p>在 Neo4j CQL 中，创建节点之间的关系三种方式：  </p>
+<ol>
+<li>创建两个现有节点之间的关系</li>
+<li>一次创建两个节点和他们之间的关系</li>
+<li>使用 WHERE 子句创建两个现有节点之间的关系</li>
+</ol>
+<p>使用 WHERE 子句创建两个现有节点之间的关系语法：  </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">MATCH</span><br><span class="line">  (&lt;nodel-name&gt;:&lt;node1-label-name&gt;),</span><br><span class="line">  (&lt;node2-name&gt;:&lt;node2-label-name&gt;)</span><br><span class="line">WHERE</span><br><span class="line">  &lt;condition&gt;</span><br><span class="line">CREATE</span><br><span class="line">  (&lt;node1-name&gt;)</span><br><span class="line">  -[&lt;relationship-name&gt;:&lt;relationship-label-name&gt;]-&gt;</span><br><span class="line">  (&lt;node2-name&gt;)</span><br></pre></td></tr></table></figure>
+
+<h2 id="DELETE-删除"><a href="#DELETE-删除" class="headerlink" title="DELETE 删除"></a>DELETE 删除</h2><p>用于删除节点、节点及相关节点和关系，应与 MATCH 结合使用。<br>语法：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">DELETE &lt;node-name-list&gt;</span><br><span class="line">DELETE &lt;node1-name&gt;, &lt;node2-name&gt;, &lt;relationship-name&gt;</span><br></pre></td></tr></table></figure>
+<p><code>MATCH (e:Employee) DELETE e</code></p>
+<h2 id="REMOVE-删除"><a href="#REMOVE-删除" class="headerlink" title="REMOVE 删除"></a>REMOVE 删除</h2><p>删除节点或关系的现有属性或标签，应与 MATCH 结合使用。  </p>
+<p>删除属性语法：<code>REMOVE &lt;property-name-list&gt;</code><br>&lt;property-name-list&gt;：  </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;node-name&gt;.&lt;property1-name&gt;,</span><br><span class="line">&lt;node-name&gt;.&lt;property2-name&gt;,</span><br><span class="line">...</span><br><span class="line">&lt;node-name&gt;.&lt;propertyn-name&gt;</span><br></pre></td></tr></table></figure>
+
+<p>删除节点/关系的标签：<code>REMOVE &lt;label-name-list&gt;</code><br>&lt;label-name-list&gt;：  </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;node-name&gt;:&lt;label2-name&gt;,</span><br><span class="line">...</span><br><span class="line">&lt;node-name&gt;:&lt;labeln-name&gt;</span><br></pre></td></tr></table></figure>
+
+<h2 id="SET-子句"><a href="#SET-子句" class="headerlink" title="SET 子句"></a>SET 子句</h2><p>向现有节点或关系添加新属性，添加或更新属性值。<br>SET 子句语法<code>SET &lt;property-name-list&gt;</code><br>&lt;property-name-list&gt;：  </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;node-name&gt;.&lt;property1-name&gt;,</span><br><span class="line">...</span><br><span class="line">&lt;node-name&gt;.&lt;propertyn-name&gt;</span><br><span class="line">```  </span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>MATCH<br>  (dc:DebitCard)<br>SET<br>  dc.atm_pin = 3456<br>RETURN<br>  dc</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">## ORDER BY  </span><br><span class="line">语法：`ORDER BY &lt;property-name-list&gt; [DESC]`  </span><br></pre></td></tr></table></figure>
+<p>MATCH<br>  (emp:Employee)<br>RETURN<br>  emp.empid, emp.name, emp.salary, emp.deptno<br>ORDER BY<br>  emp.name</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">## UNION  </span><br><span class="line">将两组结果中的公共行组合并返回到一组结果中，并删除重复的行。  </span><br><span class="line">结果列类型和来自两组结果的名称必须匹配，即列名称、数据类型应该相同。  </span><br><span class="line">可用 AS 修改列名。  </span><br></pre></td></tr></table></figure>
+<MATCH command1>
+  UNION
+<MATCH command2>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">```</span><br><span class="line">  MATCH</span><br><span class="line">    (cc:CreditCard)</span><br><span class="line">  RETURN</span><br><span class="line">    cc.id AS id, cc.number AS number</span><br><span class="line">UNION</span><br><span class="line">  MATCH</span><br><span class="line">    (dc:DebitCard)</span><br><span class="line">  RETURN</span><br><span class="line">    dc.id AS id, dc.number AS number</span><br></pre></td></tr></table></figure>
+
+<h3 id="UNION-ALL"><a href="#UNION-ALL" class="headerlink" title="UNION ALL"></a>UNION ALL</h3><p>与 UNION 用法相同，但会返回重复行。</p>
+<h2 id="LIMIT-amp-amp-SKIP"><a href="#LIMIT-amp-amp-SKIP" class="headerlink" title="LIMIT &amp;&amp; SKIP"></a>LIMIT &amp;&amp; SKIP</h2><p>限制查询返回的结果行数。LIMIT 省略底部，SKIP 省略首部。<code>[LIMIT|SKIP] &lt;number&gt;</code>  </p>
+<h2 id="MERGE"><a href="#MERGE" class="headerlink" title="MERGE"></a>MERGE</h2><p>在图中搜索给定模式，如果存在，则返回结果。如果不存在则创建新的节点/关系并返回结果。语法同 CREATE 。</p>
+<h2 id="NULL-值"><a href="#NULL-值" class="headerlink" title="NULL 值"></a>NULL 值</h2><p>Neo4j 将空值视为对节点或关系的属性缺失值或未定义值。  </p>
+<h2 id="IN-操作符"><a href="#IN-操作符" class="headerlink" title="IN 操作符"></a>IN 操作符</h2><p><code>IN [&lt;Collection-of-values&gt;]</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">MATCH (e:Employee)</span><br><span class="line">WHERE e.id IN [123, 124]</span><br><span class="line">RETURN e.id, e.name, e.sal, e.deptno</span><br></pre></td></tr></table></figure>
+
+<h2 id="ID-属性"><a href="#ID-属性" class="headerlink" title="ID 属性"></a>ID 属性</h2><p>节点和关系默认内部属性，唯一标识一个实体，由Neo4j服务器内部分配，自动递增。  </p>
+<h1 id="CQL-函数"><a href="#CQL-函数" class="headerlink" title="CQL 函数"></a>CQL 函数</h1><h2 id="字符串函数"><a href="#字符串函数" class="headerlink" title="字符串函数"></a>字符串函数</h2><table>
+<thead>
+<tr>
+<th align="left">S.No.</th>
+<th align="left">函数</th>
+<th align="left">描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">1.</td>
+<td align="left">UPPER</td>
+<td align="left">将所有字母更改为大写字母。</td>
+</tr>
+<tr>
+<td align="left">2.</td>
+<td align="left">LOWER</td>
+<td align="left">将所有字母更改为小写字母。</td>
+</tr>
+<tr>
+<td align="left">3.</td>
+<td align="left">SUBSTRING</td>
+<td align="left">获取给定 String 的子字符串。</td>
+</tr>
+<tr>
+<td align="left">4.</td>
+<td align="left">REPALCE</td>
+<td align="left">替换一个字符串的子字符串。</td>
+</tr>
+</tbody></table>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">UPPER(&lt;input-string&gt;)</span><br><span class="line">LOWER(&lt;input-string&gt;)</span><br><span class="line">SUBSTRING(&lt;input-string&gt;, &lt;startIndex&gt;, &lt;endIndex&gt;)</span><br><span class="line">REPALCE(x.name, &quot;abC&quot;, &quot;Aaa&quot;)</span><br></pre></td></tr></table></figure>
+
+<h2 id="聚合函数"><a href="#聚合函数" class="headerlink" title="聚合函数"></a>聚合函数</h2><p><code>COUNT, MAX, MIN, SUM, AVG</code> 类似于 SQL 的 GROUP BY 子句。</p>
+<h2 id="关系函数"><a href="#关系函数" class="headerlink" title="关系函数"></a>关系函数</h2><p>用以获取关系开始节点、结束节点、类型等信息。  </p>
+<table>
+<thead>
+<tr>
+<th align="left">S.No.</th>
+<th align="left">函数</th>
+<th align="left">描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">1.</td>
+<td align="left">STARTNODE</td>
+<td align="left">获取关系的开始节点</td>
+</tr>
+<tr>
+<td align="left">2.</td>
+<td align="left">ENDNODE</td>
+<td align="left">获取关系的结束节点</td>
+</tr>
+<tr>
+<td align="left">3.</td>
+<td align="left">ID</td>
+<td align="left">获取关系的 ID</td>
+</tr>
+<tr>
+<td align="left">4.</td>
+<td align="left">TYPE</td>
+<td align="left">获取关系类型（大概是标签），以字符串表示</td>
+</tr>
+</tbody></table>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">MATCH (a)-[movie:ACTION_MOVIES]-&gt;(b)</span><br><span class="line">RETURN STARTNODE(movie)</span><br></pre></td></tr></table></figure>
+
+<h1 id="Neo4j-Admin-管理员"><a href="#Neo4j-Admin-管理员" class="headerlink" title="Neo4j Admin 管理员"></a>Neo4j Admin 管理员</h1><h2 id="Neo4j-CQL-索引"><a href="#Neo4j-CQL-索引" class="headerlink" title="Neo4j CQL 索引"></a>Neo4j CQL 索引</h2><p>在某一属性上创建或删除索引，以提高应用程序的性能。  </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">CREATE INDEX ON:&lt;label-name&gt;(&lt;property-name&gt;) 在某节点或关系的属性上创造索引。</span><br><span class="line">DROP INDEX ON:&lt;lable-name&gt;(&lt;property-name&gt;) 删除在某节点或关系的属性上创建的索引。</span><br></pre></td></tr></table></figure>
+
+<h2 id="UNIQUE-约束"><a href="#UNIQUE-约束" class="headerlink" title="UNIQUE 约束"></a>UNIQUE 约束</h2><ul>
+<li>避免重复记录。</li>
+<li>强制执行数据完整性规则。  </li>
+</ul>
+<p>创建约束：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">CREATE CONSTRAINT ON (&lt;label-name&gt;) ASSERT &lt;property-name&gt; IS UNIQUE  </span><br><span class="line">保证 &lt;label-name&gt; 节点的 &lt;property-name&gt; 属性唯一</span><br></pre></td></tr></table></figure>
+
+<p>删除约束：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">DROP CONSTRAINT ON (&lt;label-name&gt;) ASSERT &lt;property-name&gt; IS UNIQUE  </span><br><span class="line">```  </span><br><span class="line"># Neo4j 和 Java  </span><br><span class="line"></span><br><span class="line">## Neo4j-Java 简介  </span><br><span class="line">+ Neo4j 原生 JAVA API。（纯 Java API ）</span><br><span class="line">+ Neo4j Cypher Java API  （用于执行 CQL 的 API）</span><br><span class="line"></span><br><span class="line">## Neo4j java 环境  </span><br><span class="line">所需依赖即 Neo4j 工程下的 lib</span><br><span class="line"></span><br><span class="line">## Neo4j 原生 JAVA API  </span><br><span class="line">示例：  </span><br></pre></td></tr></table></figure>
+<p>// 在指定路径创建一个 Schema / Database，<br>GraphDatabaseFactory dbFactory = new GraphDatabaseFactory();<br>GraphDatabaseService db= dbFactory.newEmbeddedDatabase(“C:/TPNeo4jDB”);</p>
+<p>// 开启事务以提交修改<br>try (Transaction tx = graphDb.beginTx()) {<br>    // Perform DB operations<br>    tx.success();<br>}</p>
+<p>// 创建标签名称<br>enum Tutorials implements Label{<br>  JAVA, SCALA, SQL, NEO4j<br>}<br>// 创建节点并设置属性<br>Node javaNode = db.createNode(Tutorials.JAVA);<br>Node scalaNode = db.createNode(Tutorials.SCALA);<br>javaNode.setProperty(“TutorialsID”, “JAVA001”);<br>scalaNode.setProperty(“TutorialID”, “SCALA001”);</p>
+<p>// 创建关系类型<br>enum TutorialRelationships implements RelationshipType{<br>  JVM_LANGUAGES, NON_JVM_LANGUAGES<br>}</p>
+<p>// 创建关系并设置属性<br>Relationship rel = javaNode.createRelationshipTo(scalaNode, TutorialRelationships.JVM_LANGUAGES)<br>rel.setProperty(“Id”, “123”)</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">## Neo4j Cypher API 示例</span><br></pre></td></tr></table></figure>
+<p>// 在指定路径创建一个 Schema / Database，<br>GraphDatabaseFactory dbFactory = new GraphDatabaseFactory();<br>GraphDatabaseService db= dbFactory.newEmbeddedDatabase(“C:/TPNeo4jDB”);</p>
+<p>// 创建Neo4j Cypher执行引擎<br>ExecutionEngine execEngine = new ExecutionEngine(db);</p>
+<p>// 执行 Cypher 语句<br>ExecutionResult execResult = execEngine.execute(“MATCH (java:JAVA) RETURN java”);</p>
+<p>// 将结果转化为字符串输出<br>String results  = execResult.dumpToString();<br>System.out.println(results)</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"># Neo4j 与 Spring DATA  </span><br><span class="line">## Spring DATA Neo4j 结构  </span><br><span class="line">提供四种不同的 API 来支持不同的场景  </span><br><span class="line">1. **GraphRepository** 执行基本的 Neo4j DB操作</span><br><span class="line">2. **GraphTemplate** 执行 Neo4j DB 操作的模板</span><br><span class="line">3. **CrudRepository** 用于 CQL 执行 Neo4j CRUD 操作  </span><br><span class="line">4. **PaginationAndSortingRepository** 执行 Neo4j CQL 查询结果的分页和排序</span><br><span class="line"></span><br><span class="line">## Spring DATA Neo4j 依赖  </span><br></pre></td></tr></table></figure>
+<p>//Spring DATA Neo4j模块Jar文件<br>compile ‘org.springframework.data:spring-data-neo4j:3.1.2.RELEASE’<br>//Neo4j Jar文件，由Spring DATA Neo4j模块Jar文件内部使用<br>compile ‘org.neo4j:neo4j-kernel:2.1.3’<br>//Java事务API jar文件，由Spring DATA Neo4j模块Jar文件内部使用<br>compile ‘javax.transaction:jta:1.1’<br>//Java验证API jar文件，由Spring DATA Neo4j模块Jar文件内部使用<br>compile ‘javax.validation:validation-api:1.0.0.GA’</p>
+<pre><code>
+</code></pre>
+</MATCH></MATCH> 
+      <!-- reward -->
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <footer class="article-footer">
+       
+<div class="share-btn">
+      <span class="share-sns share-outer">
+        <i class="ri-share-forward-line"></i>
+        分享
+      </span>
+      <div class="share-wrap">
+        <i class="arrow"></i>
+        <div class="share-icons">
+          
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="ri-weibo-fill"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="ri-wechat-fill"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="ri-qq-fill"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="ri-douban-line"></i>
+          </a>
+          <!-- <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a> -->
+          
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="ri-facebook-circle-fill"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="ri-twitter-fill"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="ri-google-fill"></i>
+          </a>
+        </div>
+      </div>
+</div>
+
+<div class="wx-share-modal">
+    <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://shiweiwong.github.io/notes/Neo4j.html" alt="微信分享二维码">
+    </div>
+</div>
+
+<div id="share-mask"></div>  
+    </footer>
+  </div>
+
+   
+  <nav class="article-nav">
+    
+      <a href="/notes/Java9%E6%A8%A1%E5%9D%97%E5%BC%80%E5%8F%91.html" class="article-nav-link">
+        <strong class="article-nav-caption">上一篇</strong>
+        <div class="article-nav-title">
+          
+            Java9模块式开发
+          
+        </div>
+      </a>
+    
+    
+      <a href="/notes/SpringBoot%E5%B8%B8%E7%94%A8%E6%A0%87%E7%AD%BE.html" class="article-nav-link">
+        <strong class="article-nav-caption">下一篇</strong>
+        <div class="article-nav-title">SpringBoot常用标签</div>
+      </a>
+    
+  </nav>
+
+  
+   
+     
+</article>
+
+</section>
+      <footer class="footer">
+  <div class="outer">
+    <ul>
+      <li>
+        Copyrights &copy;
+        2021-2023
+        <i class="ri-heart-fill heart_icon"></i> shiweiwong
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+      </li>
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      <li>
+        <!-- cnzz统计 -->
+        
+        <script type="text/javascript" src='https://s9.cnzz.com/z_stat.php?id=1278069914&amp;web_id=1278069914'></script>
+        
+      </li>
+    </ul>
+  </div>
+ <script src='https://cdn.jsdelivr.net/npm/mermaid@10.3.0/+esm'></script> 
+</footer>
+    
+    </main>
+    <div class="float_btns">
+      <div class="totop" id="totop">
+  <i class="ri-arrow-up-line"></i>
+</div>
+
+<div class="todark" id="todark">
+  <i class="ri-moon-line"></i>
+</div>
+
+    </div>
+    <aside class="sidebar on">
+      <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="/images/ayer-side.svg" alt="Shiweiwong&#39;s Blog"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/">主页</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">归档</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/categories">分类</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/tags">标签</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/friends">友链</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/about">关于我</a>
+    </li>
+    
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      
+      <a class="nav-item-link nav-item-search"  title="搜索">
+        <i class="ri-search-line"></i>
+      </a>
+      
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+    </aside>
+    <div id="mask"></div>
+
+<!-- #reward -->
+<div id="reward">
+  <span class="close"><i class="ri-close-line"></i></span>
+  <p class="reward-p"><i class="ri-cup-line"></i>请我喝杯咖啡吧~</p>
+  <div class="reward-box">
+    
+    <div class="reward-item">
+      <img class="reward-img" src="https://cdn.jsdelivr.net/gh/Shen-Yu/cdn/img/alipay.jpg">
+      <span class="reward-type">支付宝</span>
+    </div>
+    
+    
+    <div class="reward-item">
+      <img class="reward-img" src="https://cdn.jsdelivr.net/gh/Shen-Yu/cdn/img/wechat.jpg">
+      <span class="reward-type">微信</span>
+    </div>
+    
+  </div>
+</div>
+    
+<script src="/js/jquery-3.6.0.min.js"></script>
+ 
+<script src="/js/lazyload.min.js"></script>
+
+<!-- Tocbot -->
+ 
+<script src="/js/tocbot.min.js"></script>
+
+<script>
+  tocbot.init({
+    tocSelector: ".tocbot",
+    contentSelector: ".article-entry",
+    headingSelector: "h1, h2, h3, h4, h5, h6",
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    scrollContainer: "main",
+    positionFixedSelector: ".tocbot",
+    positionFixedClass: "is-position-fixed",
+    fixedSidebarOffset: "auto",
+  });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.js"></script>
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.css"
+/>
+<script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js"></script>
+
+<script src="/dist/main.js"></script>
+
+<!-- ImageViewer -->
+ <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css">
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"></script>
+
+<script>
+    function viewer_init() {
+        let pswpElement = document.querySelectorAll('.pswp')[0];
+        let $imgArr = document.querySelectorAll(('.article-entry img:not(.reward-img)'))
+
+        $imgArr.forEach(($em, i) => {
+            $em.onclick = () => {
+                // slider展开状态
+                // todo: 这样不好，后面改成状态
+                if (document.querySelector('.left-col.show')) return
+                let items = []
+                $imgArr.forEach(($em2, i2) => {
+                    let img = $em2.getAttribute('data-idx', i2)
+                    let src = $em2.getAttribute('data-target') || $em2.getAttribute('src')
+                    let title = $em2.getAttribute('alt')
+                    // 获得原图尺寸
+                    const image = new Image()
+                    image.src = src
+                    items.push({
+                        src: src,
+                        w: image.width || $em2.width,
+                        h: image.height || $em2.height,
+                        title: title
+                    })
+                })
+                var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, {
+                    index: parseInt(i)
+                });
+                gallery.init()
+            }
+        })
+    }
+    viewer_init()
+</script> 
+<!-- MathJax -->
+ <script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+      tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+  });
+
+  MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for(i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+  });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.6/unpacked/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script>
+  var ayerConfig = {
+    mathjax: true,
+  };
+</script>
+
+<!-- Katex -->
+
+<!-- busuanzi  -->
+
+<!-- ClickLove -->
+
+<!-- ClickBoom1 -->
+
+<!-- ClickBoom2 -->
+
+<!-- CodeCopy -->
+ 
+<link rel="stylesheet" href="/css/clipboard.css">
+ <script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script>
+  function wait(callback, seconds) {
+    var timelag = null;
+    timelag = window.setTimeout(callback, seconds);
+  }
+  !function (e, t, a) {
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '<i class="ri-file-copy-2-line"></i><span>COPY</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      $(".article pre code").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+      clipboard.on('success', function(e) {
+        let $btn = $(e.trigger);
+        $btn.addClass('copied');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-checkbox-circle-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPIED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-checkbox-circle-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+      clipboard.on('error', function(e) {
+        e.clearSelection();
+        let $btn = $(e.trigger);
+        $btn.addClass('copy-failed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-time-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPY FAILED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-time-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+    }
+    initCopyCode();
+  }(window, document);
+</script>
+ 
+<!-- CanvasBackground -->
+
+<script>
+  if (window.mermaid) {
+    mermaid.initialize({ theme: "forest" });
+  }
+</script>
+
+
+    
+    
+
+  </div>
+</body>
+
+</html>

@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+
+
+<html lang="zh-CN">
+  
+
+    <head>
+      <meta charset="utf-8" />
+        
+      <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1, maximum-scale=1"
+      />
+      <title>SpringMVC |  Shiweiwong&#39;s Blog</title>
+  <meta name="generator" content="hexo-theme-ayer">
+      
+      <link rel="shortcut icon" href="/favicon.ico" />
+       
+<link rel="stylesheet" href="/dist/main.css">
+
+      <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/Shen-Yu/cdn/css/remixicon.min.css"
+      />
+      
+<link rel="stylesheet" href="/css/custom.css">
+ 
+      <script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+       
+ 
+
+      <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-bulma@5.0.1/bulma.min.css"
+      />
+      <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.min.js"></script>
+
+      <!-- mermaid -->
+      
+      <script src="https://cdn.jsdelivr.net/npm/mermaid@8.9.2/dist/mermaid.min.js"></script>
+      
+      <style>
+        .swal2-styled.swal2-confirm {
+          font-size: 1.6rem;
+        }
+      </style>
+    </head>
+  </html>
+</html>
+
+
+<body>
+  <div id="app">
+    
+      
+    <main class="content on">
+      <section class="outer">
+  <article
+  id="post-notes/SpringMVC"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h1 class="article-title sea-center" style="border-left:0" itemprop="name">
+  SpringMVC
+</h1>
+ 
+
+      
+    </header>
+     
+    <div class="article-meta">
+      <a href="/notes/SpringMVC.html" class="article-date">
+  <time datetime="2023-12-06T00:20:40.813Z" itemprop="datePublished">2023-12-06</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/notes/">notes</a>
+  </div>
+  
+<div class="word_count">
+    <span class="post-time">
+        <span class="post-meta-item-icon">
+            <i class="ri-quill-pen-line"></i>
+            <span class="post-meta-item-text"> 字数统计:</span>
+            <span class="post-count">1.9k</span>
+        </span>
+    </span>
+
+    <span class="post-time">
+        &nbsp; | &nbsp;
+        <span class="post-meta-item-icon">
+            <i class="ri-book-open-line"></i>
+            <span class="post-meta-item-text"> 阅读时长≈</span>
+            <span class="post-count">8 分钟</span>
+        </span>
+    </span>
+</div>
+ 
+    </div>
+      
+    <div class="tocbot"></div>
+
+
+
+
+  
+    <div class="article-entry" itemprop="articleBody">
+       
+  <h1 id="Spring-MVC-简介"><a href="#Spring-MVC-简介" class="headerlink" title="Spring MVC 简介"></a>Spring MVC 简介</h1><h2 id="第一个-Spring-MVC-应用"><a href="#第一个-Spring-MVC-应用" class="headerlink" title="第一个 Spring MVC 应用"></a>第一个 Spring MVC 应用</h2><h3 id="DispatcherServlet"><a href="#DispatcherServlet" class="headerlink" title="DispatcherServlet"></a>DispatcherServlet</h3><p>&emsp;&emsp;作为调度控制的 Servlet, 充当前端控制器<br><strong>配置信息如下:</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">&lt;servlet&gt;</span><br><span class="line">  &lt;servlet-name&gt;springmvc&lt;/servlet-name&gt;</span><br><span class="line">  &lt;servlet-class&gt;</span><br><span class="line">    org.springframework.web.servlet.DispatcherServlet</span><br><span class="line">  &lt;/servlet-class&gt;</span><br><span class="line">  &lt;init-param&gt;</span><br><span class="line">    &lt;!-- 指定 Spring MVC 配置文件路径 --&gt;</span><br><span class="line">    &lt;param-name&gt;</span><br><span class="line">      contextConfigLocation</span><br><span class="line">    &lt;/param-name&gt;</span><br><span class="line">    &lt;param-value&gt;</span><br><span class="line">      /WEB-INF/springmvc-config.xml</span><br><span class="line">    &lt;/param-value&gt;</span><br><span class="line">    &lt;!-- 在 Web 应用启动时立即加载 --&gt;</span><br><span class="line">    &lt;load-on-startup&gt;1&lt;/load-on-startup&gt;</span><br><span class="line">&lt;/servlet&gt;</span><br><span class="line">&lt;servlet-mapping&gt;</span><br><span class="line">  &lt;servlet-name&gt;springmvc&lt;/servlet-name&gt;</span><br><span class="line">  &lt;url-pattern&gt;/&lt;/url-pattern&gt;</span><br><span class="line">&lt;/servlet-mapping&gt;</span><br></pre></td></tr></table></figure>
+<h3 id="基于-Controller-接口的控制器"><a href="#基于-Controller-接口的控制器" class="headerlink" title="基于 Controller 接口的控制器"></a>基于 Controller 接口的控制器</h3><p>Spring MVC 被 Dispatcher 分发任务处理请求的 JAVA 类, 在 Spring2.5 版本以前, 实现的唯一方法时实现 <code>org.springframework.web.servlet.mvc.Controller</code> 接口.<br><strong>方法定义 <code>ModleAndView handleRequeset(HttpServletRequest request, HttpServletResponse response) throws Exception</code></strong>  </p>
+<p><strong>springmvc-config.xml</strong>  </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span><br><span class="line">&lt;beans xmlns=&quot;http://www.springframework.org/schema/beans&quot;</span><br><span class="line">       xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span><br><span class="line">       xmlns:context=&quot;http://www.springframework.org/schema/context&quot;</span><br><span class="line">       xsi:schemaLocation=&quot;http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd&quot;&gt;</span><br><span class="line">    &lt;!--配置Handle, 映射&quot;/hello&quot;请求--&gt;</span><br><span class="line">    &lt;bean name=&quot;/hello&quot; class=&quot;SpringMVC.HelloController&quot;/&gt;</span><br><span class="line">    &lt;!--处理映射器将 bean 的 name 作为　url 进行查找, 需要在配置 Handle 时 指定 url--&gt;</span><br><span class="line">    &lt;bean class=&quot;org.springframework.web.servlet.handler.BeanNameUrlHandlerMapping&quot;/&gt;</span><br><span class="line">    &lt;!-- SimpleControllerHandlerAdapter 是一个处理器适配器, 所有的适配器都要实现 HandlerAdapter 接口--&gt;</span><br><span class="line">    &lt;bean class=&quot;org.springframework.web.servlet.mvc.SimpleControllerHandlerAdapter&quot;/&gt;</span><br><span class="line">    &lt;!-- 视图解析器 --&gt;</span><br><span class="line">    &lt;bean class=&quot;org.springframework.web.servlet.view.InternalResourceViewResolver&quot;/&gt;</span><br><span class="line">    &lt;!-- 基于注解的配置 --&gt;</span><br><span class="line">    &lt;!-- spring 可以自动去扫描 base-package 包下的 java 文件--&gt;</span><br><span class="line">    &lt;context:component-scan base-package=&quot;SpringMVC&quot;/&gt;</span><br><span class="line">    &lt;!-- 配置 annotation 类型的处理映射器--&gt;</span><br><span class="line">    &lt;bean class=&quot;org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping&quot;/&gt;</span><br><span class="line">    &lt;!--配置 annotation 类型的处理适配器--&gt;</span><br><span class="line">    &lt;bean class=&quot;org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter&quot;/&gt;</span><br><span class="line">    &lt;!----&gt;</span><br><span class="line">&lt;/beans&gt;</span><br></pre></td></tr></table></figure>
+<h3 id="基于注解的控制器"><a href="#基于注解的控制器" class="headerlink" title="基于注解的控制器"></a>基于注解的控制器</h3><h2 id="Spring-MVC-执行的流程"><a href="#Spring-MVC-执行的流程" class="headerlink" title="Spring MVC 执行的流程"></a>Spring MVC 执行的流程</h2><p>控制器实际由两部分组成, Dispatcher 和 Controller  </p>
+<ol>
+<li>用户向服务器发送请求.</li>
+<li>Dispatcher 截获请求并解析, 调用 HandlerMapping 获得该 Handler 配置的所有相关对象.</li>
+<li>DispatcherServlet 根据获得的 Handler, 选择一个合适的 HandlerAdapter, 调用 Handler 实际处理请求的方法.  </li>
+<li>提取请求冲的模型数据, 开始执行 Handler.  </li>
+<li>Handler 执行完成后, 向 Dispatcher 返回一个包含视图名和模型的 ModelAndView 对象.</li>
+<li>选择合适的 ViewResolver(视图解析器)</li>
+<li>ViewResolver 结合 Model 和 View 来渲染视图  </li>
+<li>将视图渲染结果返回给客户端.  </li>
+</ol>
+<h1 id="Spring-MVC-常用注解"><a href="#Spring-MVC-常用注解" class="headerlink" title="Spring MVC 常用注解"></a>Spring MVC 常用注解</h1><h2 id="Controller"><a href="#Controller" class="headerlink" title="@Controller"></a>@Controller</h2><p>&emsp;&emsp;用于 指示 Spring 类的实例是一个控制器, 可以支持同时处理过个请求动作.<br>&emsp;&emsp;Spring 使用扫描机制查找应用程序中所有基于注解的控制器类.  </p>
+<p><strong>保证　Spring 能找到控制器类需要完成的两件事情：</strong>  </p>
+<ol>
+<li>在 Spring MVC 的配置文件的头文件中引入 spring-context  </li>
+<li>使用 <a href="context:component-scan/">context:component-scan/</a> 元素, 该元素功能: 启动包扫描功能, 以便注册带有 @Controller, @Service, @repository, @Component 等注解类成为 Spring 的 bean<br><code>&lt;context:component-scan base-package=&quot;  &quot;/&gt;</code>  </li>
+</ol>
+<p><strong>用于参数绑定的注解</strong>(修饰处理方法参数)   </p>
+<ol>
+<li>处理 requset body 部分的注解: <code>@RequsetParam</code>, <code>@RequesBody  </code></li>
+<li>处理 request uri 部分的注解: <code>@PathVariable  </code></li>
+<li>处理 request header 部分的注解: <code>@RequestHeader</code>, <code>@CookieValue</code></li>
+<li>处理 attribute 类型的注解: <code>@SessionAttributes</code>, <code>@ModelAttribute</code>  </li>
+</ol>
+<h2 id="RequestMapping-注解"><a href="#RequestMapping-注解" class="headerlink" title="@RequestMapping 注解"></a>@RequestMapping 注解</h2><p><strong>用作指示 Spring 用哪一个类或方法来处理请求动作, 该注解可用于类或方法</strong>  </p>
+<h3 id="属性值"><a href="#属性值" class="headerlink" title="属性值"></a>属性值</h3><h4 id="value-属性"><a href="#value-属性" class="headerlink" title="value 属性"></a>value 属性</h4><p>&emsp;&emsp;将 url 映射到方法上  </p>
+<h4 id="method-属性"><a href="#method-属性" class="headerlink" title="method 属性"></a>method 属性</h4><p>&emsp;&emsp; 指示该方法处理哪些 HTTP 请求方式<br>&emsp;&emsp; <code>method=&#123;RequestMethod.POST, RequestMethod.GET&#125;</code><br>&emsp;&emsp;<strong>如果没有指定属性值, 表示该方法处理任意 HTTP 请求方式</strong>  </p>
+<h4 id="consumes-属性"><a href="#consumes-属性" class="headerlink" title="consumes 属性"></a>consumes 属性</h4><p>&emsp;&emsp;指定处理请求的 Content-Type<br>&emsp;&emsp;<code>consumes=&quot;application/json&quot;</code> 标识仅处理 request Content-Type 为 “application/json” 类型的请求  </p>
+<h4 id="produces-属性"><a href="#produces-属性" class="headerlink" title="produces 属性"></a>produces 属性</h4><p>&emsp;&emsp;指定返回的内容类型 (必须是 request 请求头中 Accept 所包含的类型)<br>&emsp;&emsp;<code>produces=&quot;application/json&quot;</code></p>
+<h4 id="params-属性"><a href="#params-属性" class="headerlink" title="params 属性"></a>params 属性</h4><p>&emsp;&emsp;指定 request 中必须包含某些参数值时才处理该请求.<br>&emsp;&emsp;<code>params=&quot;myParam=myValue&quot;</code><br>&emsp;&emsp;表示该方法仅处理包含名为 “myParam”, 值为”myValue” 的请求  </p>
+<h4 id="headers-属性"><a href="#headers-属性" class="headerlink" title="headers 属性"></a>headers 属性</h4><p>&emsp;&emsp;指定 request 中必须包含某些特定的 header 值, 才能让该方法处理请求.<br>&emsp;&emsp;<code>headers=&quot;Referer=http://www.fkit.org&quot;</code><br>&emsp;&emsp;方法仅处理 request 的 header 中包含了指定了 “Referer” 请求头和对应值为 “<a target="_blank" rel="noopener" href="http://www.fkit.org&quot;/">http://www.fkit.org&quot;</a></p>
+<h3 id="请求处理方法可以出现的参数类型和返回值类型"><a href="#请求处理方法可以出现的参数类型和返回值类型" class="headerlink" title="请求处理方法可以出现的参数类型和返回值类型"></a>请求处理方法可以出现的参数类型和返回值类型</h3><h4 id="参数类型"><a href="#参数类型" class="headerlink" title="参数类型"></a>参数类型</h4><ol>
+<li>javax.servlet.ServletRequest</li>
+<li>javax.servlet.HttpServletRequest</li>
+<li>javax.servlet.ServletResponse</li>
+<li>javax.servlet.HttpServletResponse</li>
+<li>javax.servlet.HttpSession</li>
+<li>org.springframework.web.context.request.WebRequest</li>
+<li>org.springframework.web.context.request.NativeWebRequest</li>
+<li>java.util.getLocale</li>
+<li>java.io.InputStream</li>
+<li>java.io.Reader</li>
+<li>java.io.OutputStream</li>
+<li>java.io.Writer</li>
+<li>java.security.Principal</li>
+<li>HttpEntity&lt;?&gt;</li>
+<li>java.util.Map</li>
+<li>org.springframework.ui.Model</li>
+<li>org.springframework.ui.ModelMap</li>
+<li>org.springframework.web.servlet.mvc.support.RedirectAttributes</li>
+<li>org.springframework.validation.Errors</li>
+<li>org.springframework.validation.BindingResult</li>
+<li>org.springframework.web.bind.support.SessionStatus</li>
+<li>org.springframework.web.util.UriComponentsBuilder</li>
+<li>@PathVariable, @MatrixVariable</li>
+<li>@RequestParam, @RequestHeader, @RequestBody, @RequsetPart  </li>
+</ol>
+<p>&emsp;&emsp;<code>org.springframework.ui.Model</code> 类型, 包含了 Map 对象来存储数据, 如果方法中添加了 Model  参数, 则每次调用请求处理方法时, Spring MVC 都会创建 Model 对象, 并将其作为参数传递给方法.  </p>
+<h4 id="返回值类型"><a href="#返回值类型" class="headerlink" title="返回值类型"></a>返回值类型</h4><ol>
+<li>org.framework.web.portlet.ModelAndView</li>
+<li>org.springframework.ui.Model</li>
+<li>java.util.Map&lt;k, v&gt;</li>
+<li>org.springframework.web.servlet.View</li>
+<li>java.lang.String</li>
+<li>HttpEntity 或 ResponseEntity</li>
+<li>java.util.concurrent.Callable</li>
+<li>org.springframework.web.context.request.async.DeferredResult</li>
+<li>void</li>
+</ol>
+<h3 id="Model-和-ModelAndView"><a href="#Model-和-ModelAndView" class="headerlink" title="Model 和 ModelAndView"></a>Model 和 ModelAndView</h3><p>&emsp;&emsp;对于 MVC 框架, 控制器(Controller) 执行业务逻辑, 用于产生模型数据(Model), 而视图(View) 用于渲染模型数据<br>&emsp;&emsp;Model 仅包含数据, ModelAndView 同时包含视图, 均实现了 Map 接口<br><strong>添加数据<code>addObject(String attributeName, Object attribureValue)</code></strong><br><strong>ModleAndView 设置视图</strong><code>setViewName(String viewName)</code>  </p>
+<h2 id="参数绑定注解"><a href="#参数绑定注解" class="headerlink" title="参数绑定注解"></a>参数绑定注解</h2><h3 id="RequestParam-注解"><a href="#RequestParam-注解" class="headerlink" title="@RequestParam 注解"></a>@RequestParam 注解</h3><p>&emsp;&emsp;用于将指定的请求参数赋值给方法中的形参  </p>
+<table>
+<thead>
+<tr>
+<th align="left">属性</th>
+<th align="left">类型</th>
+<th align="left">说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">name/value</td>
+<td align="left">String</td>
+<td align="left">指定请求头绑定的名称</td>
+</tr>
+<tr>
+<td align="left">required</td>
+<td align="left">boolean</td>
+<td align="left">参数是否必须绑定<del>(在请求url 中显示指明)</del></td>
+</tr>
+<tr>
+<td align="left">default</td>
+<td align="left">String</td>
+<td align="left">如果没有传递参数而使用的默认值</td>
+</tr>
+</tbody></table>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">public ModelAndView login(</span><br><span class="line">  @RequestParam(value=&quot;loginname&quot;, required=true, defaultValue=&quot;admin&quot;)</span><br><span class="line">  )</span><br></pre></td></tr></table></figure>
+
+<h3 id="PathVariable-注解"><a href="#PathVariable-注解" class="headerlink" title="@PathVariable 注解"></a>@PathVariable 注解</h3><p>&emsp;&emsp;获得请求 URL 中的动态参数, 只支持一个类型为 String 的属性 value ,表示绑定的名称, 省略则默认绑定同名参数  </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">@RequestMapping(value=&quot;/pathVariableTest/&#123;userId&#125;&quot;)</span><br><span class="line">public void pathVariableTest(@PathVariable Integer userId)</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;如果请求的 URL 为 “<a target="_blank" rel="noopener" href="http://localhost:8080/DataBindingTest/pathVariableTest/1&quot;">http://localhost:8080/DataBindingTest/pathVariableTest/1&quot;</a> 则自动将 URL 中模板变量{userId}} 绑定到 userId:Integer 上. 即 userId 变量将被赋值为 1  </p>
+<h3 id="RequestHeader-注解"><a href="#RequestHeader-注解" class="headerlink" title="@RequestHeader 注解"></a>@RequestHeader 注解</h3><p>&emsp;&emsp;用于将请求的头信息映射到处理方法的参数上, 与 @RequestParam 用法<del>相同</del>相似</p>
+<h3 id="CookieValue-注解"><a href="#CookieValue-注解" class="headerlink" title="@CookieValue 注解"></a>@CookieValue 注解</h3><p>&emsp;&emsp;映射 Cookie, <del>同上</del>  </p>
+<h3 id="SessionAttributes-注解"><a href="#SessionAttributes-注解" class="headerlink" title="@SessionAttributes 注解"></a>@SessionAttributes 注解</h3><p>&emsp;&emsp;有选择地指定 Model 中的哪些属性需要转存到 HttpSession 对象当中  </p>
+<table>
+<thead>
+<tr>
+<th align="left">属性</th>
+<th align="left">类型</th>
+<th align="left">说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">names/value</td>
+<td align="left">String[]</td>
+<td align="left">Model 中属性的名称, 即存储在 HttpSession 中的属性名称</td>
+</tr>
+<tr>
+<td align="left">types</td>
+<td align="left">Class&lt;?&gt;[]</td>
+<td align="left">指定对象类型<del>参数是否必须绑定</del></td>
+</tr>
+</tbody></table>
+<h3 id="ModelAttribute-注解"><a href="#ModelAttribute-注解" class="headerlink" title="@ModelAttribute 注解"></a>@ModelAttribute 注解</h3><p>&emsp;&emsp;将请求参数绑定到 Model 对象.<br>&emsp;&emsp;只支持一个类型为 String 的 value 属性, 表示绑定的属性名称.<br><strong>被该注解标识的方法会在 Controller 每个方法执行前被执行</strong>  </p>
+ 
+      <!-- reward -->
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <footer class="article-footer">
+       
+<div class="share-btn">
+      <span class="share-sns share-outer">
+        <i class="ri-share-forward-line"></i>
+        分享
+      </span>
+      <div class="share-wrap">
+        <i class="arrow"></i>
+        <div class="share-icons">
+          
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="ri-weibo-fill"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="ri-wechat-fill"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="ri-qq-fill"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="ri-douban-line"></i>
+          </a>
+          <!-- <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a> -->
+          
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="ri-facebook-circle-fill"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="ri-twitter-fill"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="ri-google-fill"></i>
+          </a>
+        </div>
+      </div>
+</div>
+
+<div class="wx-share-modal">
+    <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://shiweiwong.github.io/notes/SpringMVC.html" alt="微信分享二维码">
+    </div>
+</div>
+
+<div id="share-mask"></div>  
+    </footer>
+  </div>
+
+   
+  <nav class="article-nav">
+    
+      <a href="/notes/SpringCloud.html" class="article-nav-link">
+        <strong class="article-nav-caption">上一篇</strong>
+        <div class="article-nav-title">
+          
+            SpringCloud
+          
+        </div>
+      </a>
+    
+    
+      <a href="/notes/gradle.html" class="article-nav-link">
+        <strong class="article-nav-caption">下一篇</strong>
+        <div class="article-nav-title">Gradle</div>
+      </a>
+    
+  </nav>
+
+  
+   
+     
+</article>
+
+</section>
+      <footer class="footer">
+  <div class="outer">
+    <ul>
+      <li>
+        Copyrights &copy;
+        2021-2023
+        <i class="ri-heart-fill heart_icon"></i> shiweiwong
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+      </li>
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      <li>
+        <!-- cnzz统计 -->
+        
+        <script type="text/javascript" src='https://s9.cnzz.com/z_stat.php?id=1278069914&amp;web_id=1278069914'></script>
+        
+      </li>
+    </ul>
+  </div>
+ <script src='https://cdn.jsdelivr.net/npm/mermaid@10.3.0/+esm'></script> 
+</footer>
+    
+    </main>
+    <div class="float_btns">
+      <div class="totop" id="totop">
+  <i class="ri-arrow-up-line"></i>
+</div>
+
+<div class="todark" id="todark">
+  <i class="ri-moon-line"></i>
+</div>
+
+    </div>
+    <aside class="sidebar on">
+      <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="/images/ayer-side.svg" alt="Shiweiwong&#39;s Blog"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/">主页</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">归档</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/categories">分类</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/tags">标签</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/friends">友链</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/about">关于我</a>
+    </li>
+    
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      
+      <a class="nav-item-link nav-item-search"  title="搜索">
+        <i class="ri-search-line"></i>
+      </a>
+      
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+    </aside>
+    <div id="mask"></div>
+
+<!-- #reward -->
+<div id="reward">
+  <span class="close"><i class="ri-close-line"></i></span>
+  <p class="reward-p"><i class="ri-cup-line"></i>请我喝杯咖啡吧~</p>
+  <div class="reward-box">
+    
+    <div class="reward-item">
+      <img class="reward-img" src="https://cdn.jsdelivr.net/gh/Shen-Yu/cdn/img/alipay.jpg">
+      <span class="reward-type">支付宝</span>
+    </div>
+    
+    
+    <div class="reward-item">
+      <img class="reward-img" src="https://cdn.jsdelivr.net/gh/Shen-Yu/cdn/img/wechat.jpg">
+      <span class="reward-type">微信</span>
+    </div>
+    
+  </div>
+</div>
+    
+<script src="/js/jquery-3.6.0.min.js"></script>
+ 
+<script src="/js/lazyload.min.js"></script>
+
+<!-- Tocbot -->
+ 
+<script src="/js/tocbot.min.js"></script>
+
+<script>
+  tocbot.init({
+    tocSelector: ".tocbot",
+    contentSelector: ".article-entry",
+    headingSelector: "h1, h2, h3, h4, h5, h6",
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    scrollContainer: "main",
+    positionFixedSelector: ".tocbot",
+    positionFixedClass: "is-position-fixed",
+    fixedSidebarOffset: "auto",
+  });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.js"></script>
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.css"
+/>
+<script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js"></script>
+
+<script src="/dist/main.js"></script>
+
+<!-- ImageViewer -->
+ <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css">
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"></script>
+
+<script>
+    function viewer_init() {
+        let pswpElement = document.querySelectorAll('.pswp')[0];
+        let $imgArr = document.querySelectorAll(('.article-entry img:not(.reward-img)'))
+
+        $imgArr.forEach(($em, i) => {
+            $em.onclick = () => {
+                // slider展开状态
+                // todo: 这样不好，后面改成状态
+                if (document.querySelector('.left-col.show')) return
+                let items = []
+                $imgArr.forEach(($em2, i2) => {
+                    let img = $em2.getAttribute('data-idx', i2)
+                    let src = $em2.getAttribute('data-target') || $em2.getAttribute('src')
+                    let title = $em2.getAttribute('alt')
+                    // 获得原图尺寸
+                    const image = new Image()
+                    image.src = src
+                    items.push({
+                        src: src,
+                        w: image.width || $em2.width,
+                        h: image.height || $em2.height,
+                        title: title
+                    })
+                })
+                var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, {
+                    index: parseInt(i)
+                });
+                gallery.init()
+            }
+        })
+    }
+    viewer_init()
+</script> 
+<!-- MathJax -->
+ <script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+      tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+  });
+
+  MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for(i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+  });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.6/unpacked/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script>
+  var ayerConfig = {
+    mathjax: true,
+  };
+</script>
+
+<!-- Katex -->
+
+<!-- busuanzi  -->
+
+<!-- ClickLove -->
+
+<!-- ClickBoom1 -->
+
+<!-- ClickBoom2 -->
+
+<!-- CodeCopy -->
+ 
+<link rel="stylesheet" href="/css/clipboard.css">
+ <script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script>
+  function wait(callback, seconds) {
+    var timelag = null;
+    timelag = window.setTimeout(callback, seconds);
+  }
+  !function (e, t, a) {
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '<i class="ri-file-copy-2-line"></i><span>COPY</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      $(".article pre code").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+      clipboard.on('success', function(e) {
+        let $btn = $(e.trigger);
+        $btn.addClass('copied');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-checkbox-circle-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPIED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-checkbox-circle-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+      clipboard.on('error', function(e) {
+        e.clearSelection();
+        let $btn = $(e.trigger);
+        $btn.addClass('copy-failed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-time-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPY FAILED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-time-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+    }
+    initCopyCode();
+  }(window, document);
+</script>
+ 
+<!-- CanvasBackground -->
+
+<script>
+  if (window.mermaid) {
+    mermaid.initialize({ theme: "forest" });
+  }
+</script>
+
+
+    
+    
+
+  </div>
+</body>
+
+</html>

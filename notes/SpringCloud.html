@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+
+
+<html lang="zh-CN">
+  
+
+    <head>
+      <meta charset="utf-8" />
+        
+      <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1, maximum-scale=1"
+      />
+      <title>SpringCloud |  Shiweiwong&#39;s Blog</title>
+  <meta name="generator" content="hexo-theme-ayer">
+      
+      <link rel="shortcut icon" href="/favicon.ico" />
+       
+<link rel="stylesheet" href="/dist/main.css">
+
+      <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/Shen-Yu/cdn/css/remixicon.min.css"
+      />
+      
+<link rel="stylesheet" href="/css/custom.css">
+ 
+      <script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+       
+ 
+
+      <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-bulma@5.0.1/bulma.min.css"
+      />
+      <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.min.js"></script>
+
+      <!-- mermaid -->
+      
+      <script src="https://cdn.jsdelivr.net/npm/mermaid@8.9.2/dist/mermaid.min.js"></script>
+      
+      <style>
+        .swal2-styled.swal2-confirm {
+          font-size: 1.6rem;
+        }
+      </style>
+    </head>
+  </html>
+</html>
+
+
+<body>
+  <div id="app">
+    
+      
+    <main class="content on">
+      <section class="outer">
+  <article
+  id="post-notes/SpringCloud"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h1 class="article-title sea-center" style="border-left:0" itemprop="name">
+  SpringCloud
+</h1>
+ 
+
+      
+    </header>
+     
+    <div class="article-meta">
+      <a href="/notes/SpringCloud.html" class="article-date">
+  <time datetime="2023-12-06T00:20:40.813Z" itemprop="datePublished">2023-12-06</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/notes/">notes</a>
+  </div>
+  
+<div class="word_count">
+    <span class="post-time">
+        <span class="post-meta-item-icon">
+            <i class="ri-quill-pen-line"></i>
+            <span class="post-meta-item-text"> 字数统计:</span>
+            <span class="post-count">1.7k</span>
+        </span>
+    </span>
+
+    <span class="post-time">
+        &nbsp; | &nbsp;
+        <span class="post-meta-item-icon">
+            <i class="ri-book-open-line"></i>
+            <span class="post-meta-item-text"> 阅读时长≈</span>
+            <span class="post-count">7 分钟</span>
+        </span>
+    </span>
+</div>
+ 
+    </div>
+      
+    <div class="tocbot"></div>
+
+
+
+
+  
+    <div class="article-entry" itemprop="articleBody">
+       
+  <h1 id="0-目录"><a href="#0-目录" class="headerlink" title="0 目录"></a>0 目录</h1><p>[toc]</p>
+<h1 id="1-基础知识"><a href="#1-基础知识" class="headerlink" title="1 基础知识"></a>1 基础知识</h1><ol>
+<li><p>加载属性值  </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Value(&quot;$&#123;book.name&#125;&quot;)</span></span><br><span class="line"><span class="keyword">private</span> String name;</span><br></pre></td></tr></table></figure></li>
+<li><p>监控与管理: actuator 模块  </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">compile(&quot;org.springframework.boot:spring-boot-starter-actuator&quot;)</span><br><span class="line">```  </span><br><span class="line">自动添加一批用于监控和获取配置的端点  </span><br><span class="line"></span><br><span class="line"># 2 服务治理：Spring Cloud Eureka  </span><br><span class="line">主要用来实现各个微服务实例的自动化注册与发现。</span><br><span class="line">高可用注册中心：所有结点既是服务提供方，又是服务消费方</span><br><span class="line">Eureka 服务治理基础架构的三个核心要素:  </span><br><span class="line">1. 服务注册中心(eureka-server): Eureka 提供的服务端，提供服务注册与发现的功能。  </span><br><span class="line">2. 服务提供者(DiscoveryClient): 提供服务的应用, 将自己提供的服务注册到 Eureka  </span><br><span class="line">3. 服务消费者(Ribbon, Feign等): 从服务注册中心获取服务列表.  </span><br><span class="line"></span><br><span class="line">## 2.1 配置详解  </span><br><span class="line">再实际使用 Spring Cloud Eureka 的过程中, 我们所作的配置内容几乎都是对 Eureka 客户端配置进行的操作  </span><br><span class="line">1. 服务注册相关的配置信息, 包括服务注册中心的地址, 服务获取的间隔时间, 可用区域等  </span><br><span class="line">2. 服务实例相关的配置信息, 包括服务实例的名称, IP地址, 端口号, 健康检查路径等  </span><br><span class="line"></span><br><span class="line">### 2.1.1 服务注册类配置  </span><br><span class="line">`org.springframework.cloud.netflix.eureka.EurekaClientConfigBean`  </span><br><span class="line">**指定注册中心**</span><br></pre></td></tr></table></figure>
+<p>eureka.client.serviceUrl.defaultZone = http://<username>:<password>@host:port/eureka, url2, url3, …</password></username></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">### 2.1.2 服务实例类配置  </span><br><span class="line">`org.springframework.cloud.netflix.eureka.EurekaInstanceConfigBean`  </span><br><span class="line">使用 `eureka.instance.&lt;properties&gt;=&lt;value&gt;`的格式对标准化数据直接进行配置.  </span><br><span class="line">**实例名配置**  </span><br><span class="line">即 InstanceInfo 中的 instaceId 参数  </span><br><span class="line">默认值: 主机名  和 `$&#123;Spring.cloud.client.hostname&#125;:$&#123;spring.application.name&#125;:$&#123;spring.application.instance_id:$&#123;server.port&#125;&#125;`</span><br><span class="line">使用 `eureka.instance.instanceId` 进行配置  </span><br><span class="line"></span><br><span class="line">**健康检测**  </span><br><span class="line">可以通过以下配置将 Eureka 客户端的健康检测交给`spring-boot-actuator`模块的`/health`端点  </span><br><span class="line">1. 引入 `spring-boot-actuator` 模块的依赖</span><br><span class="line">2. 增加参数配置 `eureka.client.healthcheck.enabled=true`  </span><br><span class="line"></span><br><span class="line"># 3 客户端负载均衡 Spring Cloud Ribbon  </span><br><span class="line">实现客户端负载均衡:  </span><br><span class="line">1. 服务提供者将服务实例注册到一个注册中心或者多个相关联的注册中心</span><br><span class="line">2. 服务消费者直接直接通过`@LoadBalanced`修饰过的 RestTemplate 来实现面向服务的接口调用  </span><br><span class="line"></span><br><span class="line">## 3.1 RestTemplate  </span><br><span class="line">### 3.1.1 GET 请求  </span><br><span class="line">**`getForEntity`** 方法</span><br><span class="line">```java</span><br><span class="line">// getForEntity(String url, Class responseType, Map urlVariables)</span><br><span class="line">RestTemplate restTemplate = new RestTemplate();</span><br><span class="line">Map&lt;String, String&gt; params = new HashMap&lt;&gt;();</span><br><span class="line">params.put(&quot;name&quot;, &quot;data&quot;);</span><br><span class="line">ResponseEntity&lt;String&gt; responseEntity =</span><br><span class="line">  restTemplate.getForEntity(&quot;http://USER-SERVICE/user?name=&#123;name&#125;&quot;, String.class, params);</span><br><span class="line">String body = responseEntity.getBody();</span><br></pre></td></tr></table></figure></li>
+</ol>
+<p><strong>getForObject</strong><br>直接返回 response body, 无其它内容   </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// getForObject(String url, Class responseType, Object ... urlVariables);</span></span><br><span class="line">RestTemplate restTemplate = <span class="keyword">new</span> RestTemplate();</span><br><span class="line">User result = restTemplate.getForObject(uri, User.class);</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-1-2-POST-请求"><a href="#3-1-2-POST-请求" class="headerlink" title="3.1.2 POST 请求"></a>3.1.2 POST 请求</h3><ul>
+<li><code>postForEntity(String url, Object requestData, Class reponseType, Object ... uriVariables)</code>  </li>
+<li><code>postForObject(String url, Object requestData, Class repsonseTyp, Object ... uriVariables)</code></li>
+</ul>
+<h2 id="3-2-配置详解"><a href="#3-2-配置详解" class="headerlink" title="3.2 配置详解"></a>3.2 配置详解</h2><h3 id="3-2-1-自动化配置"><a href="#3-2-1-自动化配置" class="headerlink" title="3.2.1 自动化配置"></a>3.2.1 自动化配置</h3><p>在引入 Spring Cloud Ribbon 后, 项目自动化构建以下接口实现  </p>
+<ul>
+<li>IClientConfig: 客户端配置, <code>com.netflix.client.config.DefaultClientConfigIml</code></li>
+<li>IRule: 负载均衡策列, <code>com.netflix.loadbalancer.ZoneAvoidanceRule</code></li>
+<li>IPing: 实例检查策略, <code>com.netflix.loadbalancer.NoOpPing</code>, 默认所有服务实例可用  </li>
+<li>ServerList<Server>: 服务实例清单的维护机制, <code>com.netflix.loadbalancer.ConfigurationBBasedServerList</code></Server></li>
+<li>ServerListFilter<Server>: 服务实例清单过滤机制, <code>org.springframework.cloud.netflix.ribbon.ZonePreferenceServerListFilter</code>, 同区域服务实例优先</Server></li>
+<li>ILoadBalancer: 复杂均衡器, <code>com.netflix.loadbalancer.ZoneAwareLoadBalancer</code>  </li>
+</ul>
+<h3 id="3-2-2-参数配置"><a href="#3-2-2-参数配置" class="headerlink" title="3.2.2 参数配置"></a>3.2.2 参数配置</h3><p><strong>全局配置</strong><br><code>ribbon.&lt;key&gt; = &lt;value&gt;</code><br><strong>指定客户端配置</strong><br><code>&lt;client&gt;.ribbon.&lt;key&gt; = &lt;value&gt;</code>  </p>
+<h3 id="3-2-3-重试机制"><a href="#3-2-3-重试机制" class="headerlink" title="3.2.3 重试机制"></a>3.2.3 重试机制</h3><figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">spring:</span></span><br><span class="line">  <span class="attr">cloud:</span></span><br><span class="line">    <span class="attr">loadbalancer:</span></span><br><span class="line">      <span class="attr">retry:</span></span><br><span class="line">        <span class="attr">enables:</span> <span class="literal">true</span></span><br><span class="line"><span class="attr">ribbon:</span></span><br><span class="line">  <span class="attr">ConnectTimeout:</span> <span class="number">250</span></span><br><span class="line">  <span class="attr">ReadTimeout:</span> <span class="number">1000</span></span><br><span class="line">  <span class="attr">OkToRetryOnAllOperations:</span> <span class="literal">true</span></span><br><span class="line">  <span class="attr">MaxAutoRetriesNextServer:</span> <span class="number">2</span></span><br><span class="line">  <span class="attr">MaxAutoRetries:</span> <span class="number">1</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 开启后当请求遇到故障时自动更换实例进行访问</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="4-服务容错保护-Spring-Cloud-Hystrix"><a href="#4-服务容错保护-Spring-Cloud-Hystrix" class="headerlink" title="4 服务容错保护: Spring Cloud Hystrix"></a>4 服务容错保护: Spring Cloud Hystrix</h1><p>Spring Cloud Hystrix 实现断路器, 线程隔离等一系列服务保护功能, 目标在于通过控制那些访问远程系统, 服务和第三方库的节点, 从而对延迟和故障提供更强大的容错能力.<br>Hystrix 具备服务降级, 服务熔断, 线程和信号隔离, 请求缓存, 请求合并和服务监控等功能.<br>Hystrix 使用命令模式将来自客户端的请求封装成一个对象.  </p>
+<h2 id="4-1-使用详解"><a href="#4-1-使用详解" class="headerlink" title="4.1 使用详解"></a>4.1 使用详解</h2><h3 id="4-1-1-创建请求命令"><a href="#4-1-1-创建请求命令" class="headerlink" title="4.1.1 创建请求命令"></a>4.1.1 创建请求命令</h3><p>Hystrix 命令即 <code>HystrixCommand</code>, 用于封装具体的依赖服务调用逻辑.  </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">UserCommand</span> <span class="keyword">extends</span> <span class="title">HystrixCommand</span>&lt;<span class="title">User</span>&gt;</span>&#123;</span><br><span class="line">  <span class="keyword">private</span> RestTemplate restTemplate;</span><br><span class="line">  <span class="keyword">private</span> Long id;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="title">UserCommand</span><span class="params">(Setter setter, RestTemplate restTemplate, Long id)</span></span>&#123;</span><br><span class="line">    <span class="keyword">super</span>(setter);</span><br><span class="line">    <span class="keyword">this</span>.restTemplate = restTemplate;</span><br><span class="line">    <span class="keyword">this</span>.id = id;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Override</span></span><br><span class="line">  <span class="function"><span class="keyword">protected</span> User <span class="title">run</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> restTemplate.getForObject(<span class="string">&quot;http://USER-SERVICE/users/&#123;1&#125;&quot;</span>, User.class, id);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<ul>
+<li>同步执行: <code>User u = new UserCommand(restTemplate, 1L).execute();</code></li>
+<li>异步执行: <code>Future&lt;User&gt; futureUser = new UserCommand(restTemplate, 1L).queue();</code></li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 返回一个发射多次的 Observable</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">UserObservableCommand</span> <span class="keyword">extends</span> <span class="title">HystrixObservableCommand</span>&lt;<span class="title">User</span>&gt;</span>&#123;</span><br><span class="line">  <span class="keyword">private</span> RestTemplate restTemplate;</span><br><span class="line">  <span class="keyword">private</span> Long id;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="title">UserObservableCommand</span><span class="params">(Setter setter, RestTemplate restTemplate, Long id)</span></span>&#123;</span><br><span class="line">    <span class="keyword">super</span>(setter);</span><br><span class="line">    <span class="keyword">this</span>.restTemplate = restTemplate;</span><br><span class="line">    <span class="keyword">this</span>.id = id;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@Override</span></span><br><span class="line">  <span class="function"><span class="keyword">protected</span> Observable&lt;User&gt; <span class="title">construct</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">return</span> Observable.create(<span class="keyword">new</span> Observable.OnSubscribe&lt;User&gt;()&#123;</span><br><span class="line">      <span class="meta">@Override</span></span><br><span class="line">      <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">call</span><span class="params">(Subscriber&lt;? <span class="keyword">super</span> User&gt; observer)</span></span>&#123;</span><br><span class="line">        <span class="keyword">try</span>&#123;</span><br><span class="line">          <span class="keyword">if</span>(!observer.isUnsubcribed())&#123;</span><br><span class="line">            User user = restTemplate.getForObject(<span class="string">&quot;http://USER-SERVICE/users/&#123;1&#125;&quot;</span>, User.class, id);</span><br><span class="line">            observer.onNext(user);</span><br><span class="line">            observer.onCompletes();</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;<span class="keyword">catch</span>(Exception e)&#123;</span><br><span class="line">          observer.onError(e);</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="4-1-2-定义服务降级"><a href="#4-1-2-定义服务降级" class="headerlink" title="4.1.2 定义服务降级"></a>4.1.2 定义服务降级</h3><p>fallback 是 Hystrix 命令执行失败(错误, 超时, 线程池拒绝, 断路器熔断等)时使用的后备方法, 用于实现服务的降级处理逻辑.<br>在继承 <code>HystrixCommand</code> 的类中可以重载 <code>getFallback()</code> 方法.<br>在继承 <code>HystrixObservableCommand</code> 的类中可以重载 <code>resumeWithFallback</code> 方法.  </p>
+<h3 id="4-1-3-异常处理"><a href="#4-1-3-异常处理" class="headerlink" title="4.1.3 异常处理"></a>4.1.3 异常处理</h3><p><strong>异常传播</strong><br>在执行 <code>HystrixCommand</code> 实现的方法中抛出异常时, 除了 <code>HystrixBadRequestException</code> 外均会进入服务降级逻辑, 可以通过注解忽略指定异常类型 <code>@HystrixCommand(ignoreExceptions = &#123;BadRequestException.class&#125;)</code><br><strong>异常获取</strong>  </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@HystrixCommand(fallbackMethod = &quot;fallback1&quot;)</span></span><br><span class="line"><span class="function">User <span class="title">getUserById</span><span class="params">(String id)</span></span>&#123;</span><br><span class="line">  <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(<span class="string">&quot;getUserById command failed&quot;</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function">User <span class="title">fallback1</span><span class="params">(String id, Throwable e)</span></span>&#123;</span><br><span class="line">  <span class="keyword">assert</span> <span class="string">&quot;get UserById command failed&quot;</span>.equals(e.getMessage())</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>命令名称, 分组以及线程池划分``</strong><br>通过设置命令组, Hystrix 会根据组来组织和统计命令的告警和仪表盘等信息, 默认情况下相同组名的命令使用同一个线程池  </p>
+<h3 id="4-1-4-请求缓存"><a href="#4-1-4-请求缓存" class="headerlink" title="4.1.4 请求缓存"></a>4.1.4 请求缓存</h3><p>在高并发的场景下, Hystrix 提供了请求缓存的功能<br>当不同的外部请求处理逻辑调用了同一个依赖服务时, Hystrix 会根据 cacheKey 判断缓存.<br>可以通过<code>HystrixRequestCache.clear()</code>方法来进行缓存的清理.<br>使用 <code>@CacheResult</code> 开启缓存<br>使用 <code>@CacheKey</code> 指定缓存 key(可指定 object 的内部属性)<br>使用 <code>@CacheRemove</code> 来实现失效缓存的清理</p>
+<h3 id="4-1-5-请求合并"><a href="#4-1-5-请求合并" class="headerlink" title="4.1.5 请求合并"></a>4.1.5 请求合并</h3><p>Hystrix 提供 <code>HystrixCollapser</code> 实现请求的合并以减少通信消耗和线程数的占用.  </p>
+ 
+      <!-- reward -->
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <footer class="article-footer">
+       
+<div class="share-btn">
+      <span class="share-sns share-outer">
+        <i class="ri-share-forward-line"></i>
+        分享
+      </span>
+      <div class="share-wrap">
+        <i class="arrow"></i>
+        <div class="share-icons">
+          
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="ri-weibo-fill"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="ri-wechat-fill"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="ri-qq-fill"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="ri-douban-line"></i>
+          </a>
+          <!-- <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a> -->
+          
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="ri-facebook-circle-fill"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="ri-twitter-fill"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="ri-google-fill"></i>
+          </a>
+        </div>
+      </div>
+</div>
+
+<div class="wx-share-modal">
+    <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://shiweiwong.github.io/notes/SpringCloud.html" alt="微信分享二维码">
+    </div>
+</div>
+
+<div id="share-mask"></div>  
+    </footer>
+  </div>
+
+   
+  <nav class="article-nav">
+    
+      <a href="/notes/SpringBoot%E5%B8%B8%E7%94%A8%E6%A0%87%E7%AD%BE.html" class="article-nav-link">
+        <strong class="article-nav-caption">上一篇</strong>
+        <div class="article-nav-title">
+          
+            SpringBoot常用标签
+          
+        </div>
+      </a>
+    
+    
+      <a href="/notes/SpringMVC.html" class="article-nav-link">
+        <strong class="article-nav-caption">下一篇</strong>
+        <div class="article-nav-title">SpringMVC</div>
+      </a>
+    
+  </nav>
+
+  
+   
+     
+</article>
+
+</section>
+      <footer class="footer">
+  <div class="outer">
+    <ul>
+      <li>
+        Copyrights &copy;
+        2021-2023
+        <i class="ri-heart-fill heart_icon"></i> shiweiwong
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+      </li>
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      <li>
+        <!-- cnzz统计 -->
+        
+        <script type="text/javascript" src='https://s9.cnzz.com/z_stat.php?id=1278069914&amp;web_id=1278069914'></script>
+        
+      </li>
+    </ul>
+  </div>
+ <script src='https://cdn.jsdelivr.net/npm/mermaid@10.3.0/+esm'></script> 
+</footer>
+    
+    </main>
+    <div class="float_btns">
+      <div class="totop" id="totop">
+  <i class="ri-arrow-up-line"></i>
+</div>
+
+<div class="todark" id="todark">
+  <i class="ri-moon-line"></i>
+</div>
+
+    </div>
+    <aside class="sidebar on">
+      <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="/images/ayer-side.svg" alt="Shiweiwong&#39;s Blog"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/">主页</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">归档</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/categories">分类</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/tags">标签</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/friends">友链</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/about">关于我</a>
+    </li>
+    
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      
+      <a class="nav-item-link nav-item-search"  title="搜索">
+        <i class="ri-search-line"></i>
+      </a>
+      
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+    </aside>
+    <div id="mask"></div>
+
+<!-- #reward -->
+<div id="reward">
+  <span class="close"><i class="ri-close-line"></i></span>
+  <p class="reward-p"><i class="ri-cup-line"></i>请我喝杯咖啡吧~</p>
+  <div class="reward-box">
+    
+    <div class="reward-item">
+      <img class="reward-img" src="https://cdn.jsdelivr.net/gh/Shen-Yu/cdn/img/alipay.jpg">
+      <span class="reward-type">支付宝</span>
+    </div>
+    
+    
+    <div class="reward-item">
+      <img class="reward-img" src="https://cdn.jsdelivr.net/gh/Shen-Yu/cdn/img/wechat.jpg">
+      <span class="reward-type">微信</span>
+    </div>
+    
+  </div>
+</div>
+    
+<script src="/js/jquery-3.6.0.min.js"></script>
+ 
+<script src="/js/lazyload.min.js"></script>
+
+<!-- Tocbot -->
+ 
+<script src="/js/tocbot.min.js"></script>
+
+<script>
+  tocbot.init({
+    tocSelector: ".tocbot",
+    contentSelector: ".article-entry",
+    headingSelector: "h1, h2, h3, h4, h5, h6",
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    scrollContainer: "main",
+    positionFixedSelector: ".tocbot",
+    positionFixedClass: "is-position-fixed",
+    fixedSidebarOffset: "auto",
+  });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.js"></script>
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.css"
+/>
+<script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js"></script>
+
+<script src="/dist/main.js"></script>
+
+<!-- ImageViewer -->
+ <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css">
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"></script>
+
+<script>
+    function viewer_init() {
+        let pswpElement = document.querySelectorAll('.pswp')[0];
+        let $imgArr = document.querySelectorAll(('.article-entry img:not(.reward-img)'))
+
+        $imgArr.forEach(($em, i) => {
+            $em.onclick = () => {
+                // slider展开状态
+                // todo: 这样不好，后面改成状态
+                if (document.querySelector('.left-col.show')) return
+                let items = []
+                $imgArr.forEach(($em2, i2) => {
+                    let img = $em2.getAttribute('data-idx', i2)
+                    let src = $em2.getAttribute('data-target') || $em2.getAttribute('src')
+                    let title = $em2.getAttribute('alt')
+                    // 获得原图尺寸
+                    const image = new Image()
+                    image.src = src
+                    items.push({
+                        src: src,
+                        w: image.width || $em2.width,
+                        h: image.height || $em2.height,
+                        title: title
+                    })
+                })
+                var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, {
+                    index: parseInt(i)
+                });
+                gallery.init()
+            }
+        })
+    }
+    viewer_init()
+</script> 
+<!-- MathJax -->
+ <script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+      tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+  });
+
+  MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for(i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+  });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.6/unpacked/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script>
+  var ayerConfig = {
+    mathjax: true,
+  };
+</script>
+
+<!-- Katex -->
+
+<!-- busuanzi  -->
+
+<!-- ClickLove -->
+
+<!-- ClickBoom1 -->
+
+<!-- ClickBoom2 -->
+
+<!-- CodeCopy -->
+ 
+<link rel="stylesheet" href="/css/clipboard.css">
+ <script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script>
+  function wait(callback, seconds) {
+    var timelag = null;
+    timelag = window.setTimeout(callback, seconds);
+  }
+  !function (e, t, a) {
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '<i class="ri-file-copy-2-line"></i><span>COPY</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      $(".article pre code").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+      clipboard.on('success', function(e) {
+        let $btn = $(e.trigger);
+        $btn.addClass('copied');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-checkbox-circle-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPIED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-checkbox-circle-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+      clipboard.on('error', function(e) {
+        e.clearSelection();
+        let $btn = $(e.trigger);
+        $btn.addClass('copy-failed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-time-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPY FAILED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-time-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+    }
+    initCopyCode();
+  }(window, document);
+</script>
+ 
+<!-- CanvasBackground -->
+
+<script>
+  if (window.mermaid) {
+    mermaid.initialize({ theme: "forest" });
+  }
+</script>
+
+
+    
+    
+
+  </div>
+</body>
+
+</html>

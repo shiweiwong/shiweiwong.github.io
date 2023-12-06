@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+
+
+<html lang="zh-CN">
+  
+
+    <head>
+      <meta charset="utf-8" />
+        
+      <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1, maximum-scale=1"
+      />
+      <title>EffectiveJava |  Shiweiwong&#39;s Blog</title>
+  <meta name="generator" content="hexo-theme-ayer">
+      
+      <link rel="shortcut icon" href="/favicon.ico" />
+       
+<link rel="stylesheet" href="/dist/main.css">
+
+      <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/Shen-Yu/cdn/css/remixicon.min.css"
+      />
+      
+<link rel="stylesheet" href="/css/custom.css">
+ 
+      <script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+       
+ 
+
+      <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-bulma@5.0.1/bulma.min.css"
+      />
+      <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.min.js"></script>
+
+      <!-- mermaid -->
+      
+      <script src="https://cdn.jsdelivr.net/npm/mermaid@8.9.2/dist/mermaid.min.js"></script>
+      
+      <style>
+        .swal2-styled.swal2-confirm {
+          font-size: 1.6rem;
+        }
+      </style>
+    </head>
+  </html>
+</html>
+
+
+<body>
+  <div id="app">
+    
+      
+    <main class="content on">
+      <section class="outer">
+  <article
+  id="post-notes/EffectiveJava"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h1 class="article-title sea-center" style="border-left:0" itemprop="name">
+  EffectiveJava
+</h1>
+ 
+
+      
+    </header>
+     
+    <div class="article-meta">
+      <a href="/notes/EffectiveJava.html" class="article-date">
+  <time datetime="2021-10-19T08:27:07.000Z" itemprop="datePublished">2021-10-19</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/notes/">notes</a>
+  </div>
+  
+<div class="word_count">
+    <span class="post-time">
+        <span class="post-meta-item-icon">
+            <i class="ri-quill-pen-line"></i>
+            <span class="post-meta-item-text"> 字数统计:</span>
+            <span class="post-count">2.1k</span>
+        </span>
+    </span>
+
+    <span class="post-time">
+        &nbsp; | &nbsp;
+        <span class="post-meta-item-icon">
+            <i class="ri-book-open-line"></i>
+            <span class="post-meta-item-text"> 阅读时长≈</span>
+            <span class="post-count">8 分钟</span>
+        </span>
+    </span>
+</div>
+ 
+    </div>
+      
+    <div class="tocbot"></div>
+
+
+
+
+  
+    <div class="article-entry" itemprop="articleBody">
+       
+  <h1 id="1-创建和销毁对象"><a href="#1-创建和销毁对象" class="headerlink" title="1 创建和销毁对象"></a>1 创建和销毁对象</h1><h3 id="1-用静态方法构代替构造器"><a href="#1-用静态方法构代替构造器" class="headerlink" title="1 用静态方法构代替构造器"></a>1 用静态方法构代替构造器</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Boolean <span class="title">valueOf</span><span class="params">(<span class="keyword">boolean</span> b)</span></span>&#123;</span><br><span class="line">  <span class="keyword">return</span> b ? Boolean.TRUE : Boolean.FALSE;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-遇到多个构造器参数时考虑使用构建器"><a href="#2-遇到多个构造器参数时考虑使用构建器" class="headerlink" title="2 遇到多个构造器参数时考虑使用构建器"></a>2 遇到多个构造器参数时考虑使用构建器</h3><p>当参数量较多时，重叠构造器模式客户端代码较难编写且难以阅读。<br>使用 <code>Java Bean</code> 的方式可能使得到处不一致的状态。<br>代替方法：使用建造者模式通过提供必要参数构造一个<code>builder</code>，再采用流式操作构建可选参数。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Builder pattern</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">NutritionFacts</span></span>&#123;</span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">int</span> servingSize;</span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">int</span> servings;</span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">int</span> calories;</span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">int</span> fat;</span><br><span class="line">  <span class="function"><span class="keyword">private</span> <span class="title">NutritionFacts</span><span class="params">(Builder builder)</span></span>&#123;</span><br><span class="line">    servingSize = builder.servingSize;</span><br><span class="line">    servings = builder.servings;</span><br><span class="line">    calories = builder.calories;</span><br><span class="line">    fat = builder.fat;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> class <span class="title">Builder</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="comment">// 必要参数</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">int</span> servingSize;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> servings;</span><br><span class="line">    <span class="comment">// 可选参数</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> calories = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> fat = <span class="number">0</span>;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Builder</span><span class="params">(<span class="keyword">int</span> servingSize, <span class="keyword">int</span> servings)</span></span>&#123;</span><br><span class="line">      <span class="keyword">this</span>.servingSize = servingSize;</span><br><span class="line">      <span class="keyword">this</span>.servings = servings;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> Builder <span class="title">calories</span><span class="params">(<span class="keyword">int</span> val)</span></span>&#123;</span><br><span class="line">      calories = val;</span><br><span class="line">      <span class="keyword">return</span> <span class="keyword">this</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> Builder <span class="title">fat</span><span class="params">(<span class="keyword">int</span> val)</span></span>&#123;</span><br><span class="line">      fat = val;</span><br><span class="line">      <span class="keyword">return</span> <span class="keyword">this</span>;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 客户端代码</span></span><br><span class="line">NutritionFacts cocaCola = <span class="keyword">new</span> NutritionFacts.Builder(<span class="number">240</span>, <span class="number">8</span>).calories(<span class="number">100</span>).build();</span><br></pre></td></tr></table></figure>
+<h3 id="3-用私有构造器或者枚举类型强化-Singleton-属性"><a href="#3-用私有构造器或者枚举类型强化-Singleton-属性" class="headerlink" title="3 用私有构造器或者枚举类型强化 Singleton 属性"></a>3 用私有构造器或者枚举类型强化 Singleton 属性</h3><p>Singleton 指单例模式，即仅被实例化一次。</p>
+<h3 id="4-通过私有构造器强化不可实例化的能力"><a href="#4-通过私有构造器强化不可实例化的能力" class="headerlink" title="4 通过私有构造器强化不可实例化的能力"></a>4 通过私有构造器强化不可实例化的能力</h3><p>仅仅通过将类做成抽象类无法保证该类不被实例化，即此时该类可以被继承，而其子类仍然可以实例化。</p>
+<h3 id="5-优先考虑依赖注入来引用资源"><a href="#5-优先考虑依赖注入来引用资源" class="headerlink" title="5 优先考虑依赖注入来引用资源"></a>5 优先考虑依赖注入来引用资源</h3><p>当创建一个新的实例时，将所需要的资源通过构造器传递。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SpellChecker</span></span>&#123;</span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">final</span> Lexicon dictionary;</span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="title">SpellChecker</span><span class="params">(Lexicon dictionary)</span></span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.dictionary = Objects.requireNonNull(dictionary);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="6-避免创建不必要的对象"><a href="#6-避免创建不必要的对象" class="headerlink" title="6 避免创建不必要的对象"></a>6 避免创建不必要的对象</h3><p>一般来说最好能重用单个对象，而不是每次需要的时候就创建一个相同功能的新对象。</p>
+<h3 id="7-消除过期的对象引用"><a href="#7-消除过期的对象引用" class="headerlink" title="7 消除过期的对象引用"></a>7 消除过期的对象引用</h3><p>一个栗子：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 当执行 push，pop 之后会发生内存泄漏</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Stack</span></span>&#123;</span><br><span class="line">  <span class="keyword">private</span> Object[] elements;</span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">int</span> size = <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> DEFAULT_INIT_CAPACITY = <span class="number">16</span>;</span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="title">Stack</span><span class="params">()</span></span>&#123;</span><br><span class="line">    elements = <span class="keyword">new</span> Object[DEFAULT_INIT_CAPACITY];</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">push</span><span class="params">(Object e)</span></span>&#123;</span><br><span class="line">    ensureCapacity();</span><br><span class="line">    elements[size++] = e;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="function"><span class="keyword">public</span> Object <span class="title">pop</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(size == <span class="number">0</span>)</span><br><span class="line">      <span class="keyword">throw</span> <span class="keyword">new</span> EmptyStackException();</span><br><span class="line">    <span class="keyword">return</span> elements[--size];</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">ensureCapacity</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(elements.length == size)</span><br><span class="line">      elements = Arrays.copyOf(elements, <span class="number">2</span>*size + <span class="number">1</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>当执行<code>pop()</code>时，<code>elements[size]</code>处的引用已逻辑上已经无效，应当被回收。  </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 修改版本</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> Object <span class="title">pop</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(size == <span class="number">0</span>)</span><br><span class="line">      <span class="keyword">throw</span> <span class="keyword">new</span> EmptyStackException();</span><br><span class="line">    Object result = elements[size];</span><br><span class="line">    elements[--size] = <span class="keyword">null</span>;</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+<p>其他内存泄漏来源包括过久没有清理的缓存、监听器或其他回调。  </p>
+<h3 id="8-避免使用终结方法和清洁方法"><a href="#8-避免使用终结方法和清洁方法" class="headerlink" title="8 避免使用终结方法和清洁方法"></a>8 避免使用终结方法和清洁方法</h3><h3 id="9-try-with-resources-优先于-try-finally"><a href="#9-try-with-resources-优先于-try-finally" class="headerlink" title="9 try-with-resources 优先于 try-finally"></a>9 try-with-resources 优先于 try-finally</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span>(</span><br><span class="line">  InputStream in = <span class="keyword">new</span> FileInputStream(src);</span><br><span class="line">  OutputStream out = <span class="keyword">new</span> OutputStream(dst)</span><br><span class="line">)&#123;</span><br><span class="line">  <span class="keyword">byte</span>[] buf = <span class="keyword">new</span> <span class="keyword">byte</span>[BUFFER_SIZE];</span><br><span class="line">&#125;<span class="keyword">catch</span> (IOException e)&#123;</span><br><span class="line">  e.printExceptionStack();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="2-对于所有对象都通用的方法"><a href="#2-对于所有对象都通用的方法" class="headerlink" title="2 对于所有对象都通用的方法"></a>2 对于所有对象都通用的方法</h1><p>设计 <code>Object</code> 类的目的是为了扩展，它的所有非 <code>final</code> 方法<code>equals, hashCode, toString, clone</code> 都有明确的通用约定。</p>
+<h3 id="10-覆盖-equals-时请遵守通用约定"><a href="#10-覆盖-equals-时请遵守通用约定" class="headerlink" title="10 覆盖 equals 时请遵守通用约定"></a>10 覆盖 equals 时请遵守通用约定</h3><ol>
+<li>类的每个实例本质上都是唯一的，没有必要提供“逻辑相等”的测试功能。</li>
+<li>当超类已经覆盖 <code>equals</code> 时，其行为对所有子类来说也应当有效。</li>
+<li><code>equals</code> 方法应当满足离散数学中的<strong>等价关系</strong>。</li>
+</ol>
+<h5 id="高质量实现-equals-方法的诀窍"><a href="#高质量实现-equals-方法的诀窍" class="headerlink" title="高质量实现 equals 方法的诀窍"></a>高质量实现 <code>equals</code> 方法的诀窍</h5><ol>
+<li>使用 <code>==</code> 检查“待比较对象是否同为这个对象的引用”</li>
+<li>使用 <code>instanceof</code> 检查“待比较对象是否为正确的类型”并进行类型转换。</li>
+<li>检查类中的每个关键域。</li>
+</ol>
+<p>一个栗子：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">PhoneNumber</span></span>&#123;</span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">short</span> areaCode, prefix, lineNum;</span><br><span class="line">  <span class="meta">@Override</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">equals</span><span class="params">(Object o)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>( o == <span class="keyword">this</span> ) <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    <span class="keyword">if</span>( !(o <span class="keyword">instanceof</span> PhoneNumber) ) <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    PhoneNumber pn = (PhoneNumber)o;</span><br><span class="line">    <span class="keyword">return</span> pn.lineNum == lineNum &amp;&amp; pn.prefix == prefix &amp;&amp; pn.areaCode == areaCode;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="11-覆盖-equals-时总要覆盖-hashCode"><a href="#11-覆盖-equals-时总要覆盖-hashCode" class="headerlink" title="11 覆盖 equals 时总要覆盖 hashCode"></a>11 覆盖 equals 时总要覆盖 hashCode</h3><h3 id="12-始终覆盖-toString"><a href="#12-始终覆盖-toString" class="headerlink" title="12 始终覆盖 toString"></a>12 始终覆盖 toString</h3><p>默认 <code>toString</code> 的实现只输出 <code>类名@16进制散列码</code></p>
+<h3 id="13-谨慎地覆盖-clone"><a href="#13-谨慎地覆盖-clone" class="headerlink" title="13 谨慎地覆盖 clone"></a>13 谨慎地覆盖 clone</h3><p>实际上 <code>Cloneable</code> 接口不包含任何方法，只决定 <code>Object</code> 中受保护的 <code>clone</code> 方法实现的行为：如果一个类实现了 <code>Cloneable</code> 接口，则 <code>clone</code> 方法返回该对象的逐域拷贝（以值传递的形式进行，因此当涉及引用时应实现类似深拷贝的方法），否则抛出 <code>CloneNotSupportedException</code> 异常。<br>对象拷贝的更好实现方式是提供拷贝构造器或者拷贝工厂。</p>
+<h3 id="14-考虑实现-Comparable-接口"><a href="#14-考虑实现-Comparable-接口" class="headerlink" title="14 考虑实现 Comparable 接口"></a>14 考虑实现 Comparable 接口</h3><p>对基本数据类型进行排序时避免使用 <code>&lt;</code> 和 <code>&gt;</code> 操作符，推荐使用装箱基本类型中使用静态的 <code>compare</code> 方法。</p>
+<h1 id="3-类和接口"><a href="#3-类和接口" class="headerlink" title="3 类和接口"></a>3 类和接口</h1><h3 id="15-使类和成员的可访问性最小化"><a href="#15-使类和成员的可访问性最小化" class="headerlink" title="15 使类和成员的可访问性最小化"></a>15 使类和成员的可访问性最小化</h3><p>区分一个组件设计的好不好，唯一重要因素在于，它对于外部的其他组件而言，是否隐藏了其内部数据和其他实现细节。</p>
+<h3 id="16-要在公有类而非公有域中使用-getter-amp-amp-setterr"><a href="#16-要在公有类而非公有域中使用-getter-amp-amp-setterr" class="headerlink" title="16 要在公有类而非公有域中使用 getter &amp;&amp; setterr"></a>16 要在公有类而非公有域中使用 getter &amp;&amp; setterr</h3><p>公有类，即暴露给外部的类，其他程序可以通过 API 访问，不应直接暴露其字段。<br>如果某个类本身就是私有的，直接暴露其字段并没有本质错误。</p>
+<h3 id="17-使可变性最小化"><a href="#17-使可变性最小化" class="headerlink" title="17 使可变性最小化"></a>17 使可变性最小化</h3><p>不可变类是指其实例不能被修改的类，每个实例中包含的所有信息都必须在创建实例的时候提供，并在该对象的整个生命周期内保持不变。例如 Java 中的 <code>String</code> 类。<br>保证类不可变性的五条原则：  </p>
+<ol>
+<li>不提供任何设值方法。</li>
+<li>保证类不会被扩展（<code>final class</code> 或其他方法）。</li>
+<li>声明所有域都是 <code>final</code> 的。</li>
+<li>声明所有域都是 <code>private</code> 的。</li>
+<li>确保对任何可变组件的互斥访问。<br>如果类具有指向可变对象的字段，则必须确保该类的客户端无法获得指向这些对象的引用。  </li>
+</ol>
+<h3 id="18-复合优先于继承"><a href="#18-复合优先于继承" class="headerlink" title="18 复合优先于继承"></a>18 复合优先于继承</h3><p>首先, 继承打破了封装性. 即子类依赖于其超累中特定功能的实现细节. 超累的实现有可能会随着发行版本的不同而有所变化, 可能会在即使子类代码没有变化的情况下将其破坏.<br>其次, 如果超类在后续的发行版本中添加了一个新的方法, 恰巧你又为子类提供了一个签名相同但返回值类型不同的方法, 则子类代码将无法通过编译.<br>再次, 继承机制会把超类 API 中的所有缺陷传播到子类中, 而复合则允许设计新的 API 来隐藏这些缺陷.<br>因此只有在真正存在<code>is-a</code>关系时才适用继承, 其余情况应首先考虑复合, 即 <code>B</code> 包含 <code>A</code> 的一个私有实例.  </p>
+<h3 id="19-要么专门设计继承并提供文档说明-要么禁止继承"><a href="#19-要么专门设计继承并提供文档说明-要么禁止继承" class="headerlink" title="19 要么专门设计继承并提供文档说明, 要么禁止继承"></a>19 要么专门设计继承并提供文档说明, 要么禁止继承</h3><h3 id="20-接口优先于抽象类"><a href="#20-接口优先于抽象类" class="headerlink" title="20 接口优先于抽象类"></a>20 接口优先于抽象类</h3><p>骨架实现类: 为多个接口提供默认实现的抽象类</p>
+<h3 id="21-为后代设计接口"><a href="#21-为后代设计接口" class="headerlink" title="21 为后代设计接口"></a>21 为后代设计接口</h3><p>Java 8 中增加了缺省方法, 其目的是允许给现有的接口添加方法, 但这些方法是被 “注入” 到现有实现的, 其实现者并不知情.  </p>
+<h3 id="22-接口只用于定义类型"><a href="#22-接口只用于定义类型" class="headerlink" title="22 接口只用于定义类型"></a>22 接口只用于定义类型</h3><p>当类实现接口时, 接口就充当可以引用这个类的实例的类型(type). 因此, 类实现了接口, 就表明客户端可以对这个类的实例实施某些动作. 为了任何其他目的而定义接口是不恰当的.<br>常量应当在 <code>final class</code> 中被定义, 如在接口中定义无法保证该接口不被实现.  </p>
+<h3 id="23-类层次优于标签类"><a href="#23-类层次优于标签类" class="headerlink" title="23 类层次优于标签类"></a>23 类层次优于标签类</h3><p>图形类返回面积的例子  </p>
+<h3 id="24-静态成员优于非静态成员"><a href="#24-静态成员优于非静态成员" class="headerlink" title="24 静态成员优于非静态成员"></a>24 静态成员优于非静态成员</h3><p>四种嵌套类: 静态成员类, 非静态成员类, 匿名类和局部类<br>静态成员类可当作一个普通的类, 只是声明在一个类的内部而已, 它可以访问外围类的所有成员.<br>非静态类的每个实例都隐含地与外围类的一个实例相关联.  </p>
+<h3 id="25-限制源文件为单个顶级类"><a href="#25-限制源文件为单个顶级类" class="headerlink" title="25 限制源文件为单个顶级类"></a>25 限制源文件为单个顶级类</h3><p>确保编译时一个类不会有多个定义, 亦即编译结果和程序结果的行为不会受到源文件被传递给编译器时的顺序的影响.  </p>
+<h1 id="5-泛型"><a href="#5-泛型" class="headerlink" title="5 泛型"></a>5 泛型</h1> 
+      <!-- reward -->
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <footer class="article-footer">
+       
+<div class="share-btn">
+      <span class="share-sns share-outer">
+        <i class="ri-share-forward-line"></i>
+        分享
+      </span>
+      <div class="share-wrap">
+        <i class="arrow"></i>
+        <div class="share-icons">
+          
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="ri-weibo-fill"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="ri-wechat-fill"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="ri-qq-fill"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="ri-douban-line"></i>
+          </a>
+          <!-- <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a> -->
+          
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="ri-facebook-circle-fill"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="ri-twitter-fill"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="ri-google-fill"></i>
+          </a>
+        </div>
+      </div>
+</div>
+
+<div class="wx-share-modal">
+    <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://shiweiwong.github.io/notes/EffectiveJava.html" alt="微信分享二维码">
+    </div>
+</div>
+
+<div id="share-mask"></div>  
+    </footer>
+  </div>
+
+   
+  <nav class="article-nav">
+    
+      <a href="/notes/DesignPatterns.html" class="article-nav-link">
+        <strong class="article-nav-caption">上一篇</strong>
+        <div class="article-nav-title">
+          
+            DesignPatterns
+          
+        </div>
+      </a>
+    
+    
+  </nav>
+
+  
+   
+     
+</article>
+
+</section>
+      <footer class="footer">
+  <div class="outer">
+    <ul>
+      <li>
+        Copyrights &copy;
+        2021-2023
+        <i class="ri-heart-fill heart_icon"></i> shiweiwong
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+      </li>
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      <li>
+        <!-- cnzz统计 -->
+        
+        <script type="text/javascript" src='https://s9.cnzz.com/z_stat.php?id=1278069914&amp;web_id=1278069914'></script>
+        
+      </li>
+    </ul>
+  </div>
+ <script src='https://cdn.jsdelivr.net/npm/mermaid@10.3.0/+esm'></script> 
+</footer>
+    
+    </main>
+    <div class="float_btns">
+      <div class="totop" id="totop">
+  <i class="ri-arrow-up-line"></i>
+</div>
+
+<div class="todark" id="todark">
+  <i class="ri-moon-line"></i>
+</div>
+
+    </div>
+    <aside class="sidebar on">
+      <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="/images/ayer-side.svg" alt="Shiweiwong&#39;s Blog"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/">主页</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">归档</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/categories">分类</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/tags">标签</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/friends">友链</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/about">关于我</a>
+    </li>
+    
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      
+      <a class="nav-item-link nav-item-search"  title="搜索">
+        <i class="ri-search-line"></i>
+      </a>
+      
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+    </aside>
+    <div id="mask"></div>
+
+<!-- #reward -->
+<div id="reward">
+  <span class="close"><i class="ri-close-line"></i></span>
+  <p class="reward-p"><i class="ri-cup-line"></i>请我喝杯咖啡吧~</p>
+  <div class="reward-box">
+    
+    <div class="reward-item">
+      <img class="reward-img" src="https://cdn.jsdelivr.net/gh/Shen-Yu/cdn/img/alipay.jpg">
+      <span class="reward-type">支付宝</span>
+    </div>
+    
+    
+    <div class="reward-item">
+      <img class="reward-img" src="https://cdn.jsdelivr.net/gh/Shen-Yu/cdn/img/wechat.jpg">
+      <span class="reward-type">微信</span>
+    </div>
+    
+  </div>
+</div>
+    
+<script src="/js/jquery-3.6.0.min.js"></script>
+ 
+<script src="/js/lazyload.min.js"></script>
+
+<!-- Tocbot -->
+ 
+<script src="/js/tocbot.min.js"></script>
+
+<script>
+  tocbot.init({
+    tocSelector: ".tocbot",
+    contentSelector: ".article-entry",
+    headingSelector: "h1, h2, h3, h4, h5, h6",
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    scrollContainer: "main",
+    positionFixedSelector: ".tocbot",
+    positionFixedClass: "is-position-fixed",
+    fixedSidebarOffset: "auto",
+  });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.js"></script>
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.css"
+/>
+<script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js"></script>
+
+<script src="/dist/main.js"></script>
+
+<!-- ImageViewer -->
+ <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css">
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"></script>
+
+<script>
+    function viewer_init() {
+        let pswpElement = document.querySelectorAll('.pswp')[0];
+        let $imgArr = document.querySelectorAll(('.article-entry img:not(.reward-img)'))
+
+        $imgArr.forEach(($em, i) => {
+            $em.onclick = () => {
+                // slider展开状态
+                // todo: 这样不好，后面改成状态
+                if (document.querySelector('.left-col.show')) return
+                let items = []
+                $imgArr.forEach(($em2, i2) => {
+                    let img = $em2.getAttribute('data-idx', i2)
+                    let src = $em2.getAttribute('data-target') || $em2.getAttribute('src')
+                    let title = $em2.getAttribute('alt')
+                    // 获得原图尺寸
+                    const image = new Image()
+                    image.src = src
+                    items.push({
+                        src: src,
+                        w: image.width || $em2.width,
+                        h: image.height || $em2.height,
+                        title: title
+                    })
+                })
+                var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, {
+                    index: parseInt(i)
+                });
+                gallery.init()
+            }
+        })
+    }
+    viewer_init()
+</script> 
+<!-- MathJax -->
+ <script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+      tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+  });
+
+  MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for(i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+  });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.6/unpacked/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script>
+  var ayerConfig = {
+    mathjax: true,
+  };
+</script>
+
+<!-- Katex -->
+
+<!-- busuanzi  -->
+
+<!-- ClickLove -->
+
+<!-- ClickBoom1 -->
+
+<!-- ClickBoom2 -->
+
+<!-- CodeCopy -->
+ 
+<link rel="stylesheet" href="/css/clipboard.css">
+ <script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script>
+  function wait(callback, seconds) {
+    var timelag = null;
+    timelag = window.setTimeout(callback, seconds);
+  }
+  !function (e, t, a) {
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '<i class="ri-file-copy-2-line"></i><span>COPY</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      $(".article pre code").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+      clipboard.on('success', function(e) {
+        let $btn = $(e.trigger);
+        $btn.addClass('copied');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-checkbox-circle-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPIED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-checkbox-circle-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+      clipboard.on('error', function(e) {
+        e.clearSelection();
+        let $btn = $(e.trigger);
+        $btn.addClass('copy-failed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-time-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPY FAILED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-time-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+    }
+    initCopyCode();
+  }(window, document);
+</script>
+ 
+<!-- CanvasBackground -->
+
+<script>
+  if (window.mermaid) {
+    mermaid.initialize({ theme: "forest" });
+  }
+</script>
+
+
+    
+    
+
+  </div>
+</body>
+
+</html>

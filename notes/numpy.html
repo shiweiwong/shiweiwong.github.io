@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+
+
+<html lang="zh-CN">
+  
+
+    <head>
+      <meta charset="utf-8" />
+        
+      <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1, maximum-scale=1"
+      />
+      <title>Numpy |  Shiweiwong&#39;s Blog</title>
+  <meta name="generator" content="hexo-theme-ayer">
+      
+      <link rel="shortcut icon" href="/favicon.ico" />
+       
+<link rel="stylesheet" href="/dist/main.css">
+
+      <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/Shen-Yu/cdn/css/remixicon.min.css"
+      />
+      
+<link rel="stylesheet" href="/css/custom.css">
+ 
+      <script src="https://cdn.jsdelivr.net/npm/pace-js@1.0.2/pace.min.js"></script>
+       
+ 
+
+      <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/@sweetalert2/theme-bulma@5.0.1/bulma.min.css"
+      />
+      <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.min.js"></script>
+
+      <!-- mermaid -->
+      
+      <script src="https://cdn.jsdelivr.net/npm/mermaid@8.9.2/dist/mermaid.min.js"></script>
+      
+      <style>
+        .swal2-styled.swal2-confirm {
+          font-size: 1.6rem;
+        }
+      </style>
+    </head>
+  </html>
+</html>
+
+
+<body>
+  <div id="app">
+    
+      
+    <main class="content on">
+      <section class="outer">
+  <article
+  id="post-notes/numpy"
+  class="article article-type-post"
+  itemscope
+  itemprop="blogPost"
+  data-scroll-reveal
+>
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h1 class="article-title sea-center" style="border-left:0" itemprop="name">
+  Numpy
+</h1>
+ 
+
+      
+    </header>
+     
+    <div class="article-meta">
+      <a href="/notes/numpy.html" class="article-date">
+  <time datetime="2023-12-06T00:20:40.813Z" itemprop="datePublished">2023-12-06</time>
+</a> 
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/notes/">notes</a>
+  </div>
+  
+<div class="word_count">
+    <span class="post-time">
+        <span class="post-meta-item-icon">
+            <i class="ri-quill-pen-line"></i>
+            <span class="post-meta-item-text"> 字数统计:</span>
+            <span class="post-count">943</span>
+        </span>
+    </span>
+
+    <span class="post-time">
+        &nbsp; | &nbsp;
+        <span class="post-meta-item-icon">
+            <i class="ri-book-open-line"></i>
+            <span class="post-meta-item-text"> 阅读时长≈</span>
+            <span class="post-count">3 分钟</span>
+        </span>
+    </span>
+</div>
+ 
+    </div>
+      
+    <div class="tocbot"></div>
+
+
+
+
+  
+    <div class="article-entry" itemprop="articleBody">
+       
+  <h1 id="1-Ndarray-对象"><a href="#1-Ndarray-对象" class="headerlink" title="1  Ndarray 对象"></a>1  Ndarray 对象</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">numpy.array(<span class="built_in">object</span>, dtype=<span class="literal">None</span>, copy=<span class="literal">True</span>, order=<span class="literal">None</span>, subok=<span class="literal">False</span>, ndmin=<span class="number">0</span>)</span><br></pre></td></tr></table></figure>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>object</td>
+<td>数组或嵌套的序列</td>
+</tr>
+<tr>
+<td>dtype</td>
+<td>数组元素的数据类型,可选</td>
+</tr>
+<tr>
+<td>copy</td>
+<td>对象是否需要复制, 可选</td>
+</tr>
+<tr>
+<td>order</td>
+<td>创建数组的样式, C为行方向, F为列方向</td>
+</tr>
+<tr>
+<td>subok</td>
+<td>漠然返回一个与基类类型一致的数组</td>
+</tr>
+<tr>
+<td>ndmin</td>
+<td>指定生成数组的最小维度</td>
+</tr>
+</tbody></table>
+<h1 id="2-数据类型对象-dtype"><a href="#2-数据类型对象-dtype" class="headerlink" title="2  数据类型对象 dtype"></a>2  数据类型对象 dtype</h1><p>用来描述与数组对应的内存区域如何实用, 描述了数据以下几个方面:  </p>
+<ol>
+<li>数据的类型</li>
+<li>数据的大小</li>
+<li>数据的字节顺序</li>
+<li>在结构化类型的情况下, 字段的名称]每个字段的数据类型和每个字段所取得内存块的部分</li>
+<li>如果数据类型是子数据, 那么它的形状和数据类型是什么  </li>
+</ol>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">numpy.dtype(<span class="built_in">object</span>, align, copy)</span><br></pre></td></tr></table></figure>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>object</td>
+<td>要转换为的数据类型对象</td>
+</tr>
+<tr>
+<td>align</td>
+<td>是否将其继续字节对齐</td>
+</tr>
+<tr>
+<td>copy</td>
+<td>复制 dtype 对象, 若为 false 则是对内置数据类型对象的引用</td>
+</tr>
+</tbody></table>
+<h1 id="3-数组属性"><a href="#3-数组属性" class="headerlink" title="3  数组属性"></a>3  数组属性</h1><table>
+<thead>
+<tr>
+<th>属性</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>ndarray.ndim</td>
+<td>秩, 即轴的数量或维度的数量</td>
+</tr>
+<tr>
+<td>ndarray.shape</td>
+<td>数组的维度</td>
+</tr>
+<tr>
+<td>ndarray.size</td>
+<td>数组元素的总个数</td>
+</tr>
+<tr>
+<td>ndarray.dtype</td>
+<td>ndarray 对象的元素类型</td>
+</tr>
+<tr>
+<td>ndarray.itemsize</td>
+<td>ndarray 对象中每个元素的大小, 以字节为单位</td>
+</tr>
+<tr>
+<td>ndarray.flags</td>
+<td>ndarray 对象的内存信息</td>
+</tr>
+<tr>
+<td>ndarray.real</td>
+<td>ndarray 元素的实部</td>
+</tr>
+<tr>
+<td>ndarray.imag</td>
+<td>ndarray 元素的虚部</td>
+</tr>
+<tr>
+<td>ndarray.data</td>
+<td>包含实际数组元素的缓冲区</td>
+</tr>
+</tbody></table>
+<h1 id="4-创建数组"><a href="#4-创建数组" class="headerlink" title="4  创建数组"></a>4  创建数组</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">numpy.empty(shape, dtype=<span class="built_in">float</span>, order=<span class="string">&#x27;C&#x27;</span>) <span class="comment"># 生成未初始化的数组  </span></span><br><span class="line">numpy.zeros(shape, dtype=<span class="built_in">float</span>, order=<span class="string">&#x27;C&#x27;</span>) <span class="comment"># 生成初始值为0的数组</span></span><br><span class="line">numpy.ones(shape, dtype=<span class="literal">None</span>, order=<span class="string">&#x27;C&#x27;</span>)   <span class="comment"># 生成初始值为1的数组</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="5-从已有的数组创建数组"><a href="#5-从已有的数组创建数组" class="headerlink" title="5  从已有的数组创建数组"></a>5  从已有的数组创建数组</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">numpy.asarray(a, dtype=<span class="literal">None</span>, order=<span class="literal">None</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># count 读取数据的数量, -1 表示全部数据</span></span><br><span class="line"><span class="comment"># offset 读取的起始位置</span></span><br><span class="line">numpy.frombuffer(buffer, dtype=<span class="built_in">float</span>, count=-<span class="number">1</span>, offset=<span class="number">0</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 从可迭代的对象中构建</span></span><br><span class="line">numpy.fromiter(iterable, dtype, count=-<span class="number">1</span>)</span><br></pre></td></tr></table></figure>
+
+<h1 id="6-从数值范围创建数组"><a href="#6-从数值范围创建数组" class="headerlink" title="6 从数值范围创建数组"></a>6 从数值范围创建数组</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 生成连续数据</span></span><br><span class="line">numpy.arange(start, stop, step, dtype)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 生成等差数列, retstep 为 True 时显示间距(此时返回结果为一个 tuple)</span></span><br><span class="line">numpy.linspace(start, stop, num=<span class="number">50</span>, endpoint=<span class="literal">True</span>, retstep=<span class="literal">False</span>, dtype=<span class="literal">None</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 生成等比数列, base 为的底数 base ** start 到 base ** stop 的 num 个</span></span><br><span class="line">numpy.logspace(start, stop, num=<span class="number">50</span>, endpoint=<span class="literal">True</span>, base=<span class="number">10.0</span>, dtype=<span class="literal">None</span>)</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h1 id="7-切片和索引"><a href="#7-切片和索引" class="headerlink" title="7  切片和索引"></a>7  切片和索引</h1><p>使用 python 的 slice 类进行切片</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">a = np.arange(<span class="number">10</span>)</span><br><span class="line">s = <span class="built_in">slice</span>(<span class="number">2</span>, <span class="number">7</span>, <span class="number">2</span>)</span><br><span class="line"><span class="built_in">print</span>( a[s])</span><br></pre></td></tr></table></figure>
+<p>冒号<code>:</code> 的解释:<br>如果只放了一个参数, 如[2], 则只取单个元素.<br>如果为[2:], 表示从索引为 2 开始以后的所有项都将被提取.<br>如果为[:2], 表示提取到索引为 2(不包含) 的所有元素<br>如果为[::3], 表示步长为 3</p>
+<h1 id="8-高级索引"><a href="#8-高级索引" class="headerlink" title="8  高级索引"></a>8  高级索引</h1><h2 id="8-1-整数数组索引"><a href="#8-1-整数数组索引" class="headerlink" title="8.1  整数数组索引"></a>8.1  整数数组索引</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line">x = np.array(</span><br><span class="line">  [</span><br><span class="line">    [<span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>],</span><br><span class="line">    [<span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>],</span><br><span class="line">    [<span class="number">6</span>, <span class="number">7</span>, <span class="number">8</span>],</span><br><span class="line">    [<span class="number">9</span>, <span class="number">10</span>, <span class="number">11</span>]</span><br><span class="line">  ]</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">rows = np.array([ [<span class="number">0</span>, <span class="number">0</span>], [<span class="number">3</span>, <span class="number">3</span>]])</span><br><span class="line">cols = np.array([ [<span class="number">0</span>, <span class="number">2</span>], [<span class="number">0</span>, <span class="number">2</span>]])</span><br><span class="line"></span><br><span class="line">y = x[rows, cols]</span><br><span class="line"><span class="built_in">print</span>(y)</span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">  y = [</span></span><br><span class="line"><span class="string">    [0, 2]</span></span><br><span class="line"><span class="string">    [9, 11]</span></span><br><span class="line"><span class="string">  ]</span></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="8-2-布尔索引"><a href="#8-2-布尔索引" class="headerlink" title="8.2  布尔索引"></a>8.2  布尔索引</h2><p>通过布尔运算来获取符合指定条件的元素的数组  </p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">x  = np.array( [[<span class="number">0</span>, <span class="number">1</span>], [<span class="number">2</span>, <span class="number">3</span>]])</span><br><span class="line"><span class="built_in">print</span>( x [x &gt; <span class="number">1</span>])</span><br></pre></td></tr></table></figure>
+
+<h1 id="9-广播-Broadcast"><a href="#9-广播-Broadcast" class="headerlink" title="9  广播(Broadcast)"></a>9  广播(Broadcast)</h1><p>广播: 对不同形状(shape)的数组进行数值计算的方式, 对数组的运算通常在相应的元素上进行<br>若运算输入数组形状对不齐且其中之一在某个维度上长度为一, 则将该维重复至于高维长度相同再进行按位运算  </p>
+<h1 id="10-迭代数组"><a href="#10-迭代数组" class="headerlink" title="10 迭代数组"></a>10 迭代数组</h1><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">a = np.arange(<span class="number">0</span>, <span class="number">60</span>, <span class="number">5</span>)</span><br><span class="line"><span class="keyword">for</span> x <span class="keyword">in</span> np.nditer(a, order=<span class="string">&#x27;C&#x27;</span>):</span><br><span class="line">  <span class="built_in">print</span>(x, end=<span class="string">&quot;, &quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 若 a, b 可广播</span></span><br><span class="line"><span class="keyword">for</span> x, y <span class="keyword">in</span> np.nditer([a,b]):</span><br><span class="line">  <span class="built_in">print</span>(<span class="string">&quot;%d:%d&quot;</span> % (x,y) ,end=<span class="string">&quot;, &quot;</span>)</span><br></pre></td></tr></table></figure>
+ 
+      <!-- reward -->
+      
+    </div>
+    
+
+    <!-- copyright -->
+    
+    <footer class="article-footer">
+       
+<div class="share-btn">
+      <span class="share-sns share-outer">
+        <i class="ri-share-forward-line"></i>
+        分享
+      </span>
+      <div class="share-wrap">
+        <i class="arrow"></i>
+        <div class="share-icons">
+          
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="ri-weibo-fill"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="ri-wechat-fill"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="ri-qq-fill"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="ri-douban-line"></i>
+          </a>
+          <!-- <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a> -->
+          
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="ri-facebook-circle-fill"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="ri-twitter-fill"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="ri-google-fill"></i>
+          </a>
+        </div>
+      </div>
+</div>
+
+<div class="wx-share-modal">
+    <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://shiweiwong.github.io/notes/numpy.html" alt="微信分享二维码">
+    </div>
+</div>
+
+<div id="share-mask"></div>  
+    </footer>
+  </div>
+
+   
+  <nav class="article-nav">
+    
+      <a href="/notes/markdown.html" class="article-nav-link">
+        <strong class="article-nav-caption">上一篇</strong>
+        <div class="article-nav-title">
+          
+            Markdown语法整理
+          
+        </div>
+      </a>
+    
+    
+      <a href="/notes/%E3%80%8AJava%E9%AB%98%E5%B9%B6%E5%8F%91%E7%BC%96%E7%A8%8B%E8%AF%A6%E8%A7%A3%E3%80%8B.html" class="article-nav-link">
+        <strong class="article-nav-caption">下一篇</strong>
+        <div class="article-nav-title">Java高并发编程详解</div>
+      </a>
+    
+  </nav>
+
+  
+   
+     
+</article>
+
+</section>
+      <footer class="footer">
+  <div class="outer">
+    <ul>
+      <li>
+        Copyrights &copy;
+        2021-2023
+        <i class="ri-heart-fill heart_icon"></i> shiweiwong
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+      </li>
+    </ul>
+    <ul>
+      <li>
+        
+      </li>
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      
+    </ul>
+    <ul>
+      <li>
+        <!-- cnzz统计 -->
+        
+        <script type="text/javascript" src='https://s9.cnzz.com/z_stat.php?id=1278069914&amp;web_id=1278069914'></script>
+        
+      </li>
+    </ul>
+  </div>
+ <script src='https://cdn.jsdelivr.net/npm/mermaid@10.3.0/+esm'></script> 
+</footer>
+    
+    </main>
+    <div class="float_btns">
+      <div class="totop" id="totop">
+  <i class="ri-arrow-up-line"></i>
+</div>
+
+<div class="todark" id="todark">
+  <i class="ri-moon-line"></i>
+</div>
+
+    </div>
+    <aside class="sidebar on">
+      <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="/images/ayer-side.svg" alt="Shiweiwong&#39;s Blog"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/">主页</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">归档</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/categories">分类</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/tags">标签</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/friends">友链</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/about">关于我</a>
+    </li>
+    
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      
+      <a class="nav-item-link nav-item-search"  title="搜索">
+        <i class="ri-search-line"></i>
+      </a>
+      
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+    </aside>
+    <div id="mask"></div>
+
+<!-- #reward -->
+<div id="reward">
+  <span class="close"><i class="ri-close-line"></i></span>
+  <p class="reward-p"><i class="ri-cup-line"></i>请我喝杯咖啡吧~</p>
+  <div class="reward-box">
+    
+    <div class="reward-item">
+      <img class="reward-img" src="https://cdn.jsdelivr.net/gh/Shen-Yu/cdn/img/alipay.jpg">
+      <span class="reward-type">支付宝</span>
+    </div>
+    
+    
+    <div class="reward-item">
+      <img class="reward-img" src="https://cdn.jsdelivr.net/gh/Shen-Yu/cdn/img/wechat.jpg">
+      <span class="reward-type">微信</span>
+    </div>
+    
+  </div>
+</div>
+    
+<script src="/js/jquery-3.6.0.min.js"></script>
+ 
+<script src="/js/lazyload.min.js"></script>
+
+<!-- Tocbot -->
+ 
+<script src="/js/tocbot.min.js"></script>
+
+<script>
+  tocbot.init({
+    tocSelector: ".tocbot",
+    contentSelector: ".article-entry",
+    headingSelector: "h1, h2, h3, h4, h5, h6",
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    scrollContainer: "main",
+    positionFixedSelector: ".tocbot",
+    positionFixedClass: "is-position-fixed",
+    fixedSidebarOffset: "auto",
+  });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.js"></script>
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.css"
+/>
+<script src="https://cdn.jsdelivr.net/npm/justifiedGallery@3.7.0/dist/js/jquery.justifiedGallery.min.js"></script>
+
+<script src="/dist/main.js"></script>
+
+<!-- ImageViewer -->
+ <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.min.css">
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"></script>
+
+<script>
+    function viewer_init() {
+        let pswpElement = document.querySelectorAll('.pswp')[0];
+        let $imgArr = document.querySelectorAll(('.article-entry img:not(.reward-img)'))
+
+        $imgArr.forEach(($em, i) => {
+            $em.onclick = () => {
+                // slider展开状态
+                // todo: 这样不好，后面改成状态
+                if (document.querySelector('.left-col.show')) return
+                let items = []
+                $imgArr.forEach(($em2, i2) => {
+                    let img = $em2.getAttribute('data-idx', i2)
+                    let src = $em2.getAttribute('data-target') || $em2.getAttribute('src')
+                    let title = $em2.getAttribute('alt')
+                    // 获得原图尺寸
+                    const image = new Image()
+                    image.src = src
+                    items.push({
+                        src: src,
+                        w: image.width || $em2.width,
+                        h: image.height || $em2.height,
+                        title: title
+                    })
+                })
+                var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, {
+                    index: parseInt(i)
+                });
+                gallery.init()
+            }
+        })
+    }
+    viewer_init()
+</script> 
+<!-- MathJax -->
+ <script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+      tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+  });
+
+  MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for(i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+  });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.6/unpacked/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script>
+  var ayerConfig = {
+    mathjax: true,
+  };
+</script>
+
+<!-- Katex -->
+
+<!-- busuanzi  -->
+
+<!-- ClickLove -->
+
+<!-- ClickBoom1 -->
+
+<!-- ClickBoom2 -->
+
+<!-- CodeCopy -->
+ 
+<link rel="stylesheet" href="/css/clipboard.css">
+ <script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script>
+  function wait(callback, seconds) {
+    var timelag = null;
+    timelag = window.setTimeout(callback, seconds);
+  }
+  !function (e, t, a) {
+    var initCopyCode = function(){
+      var copyHtml = '';
+      copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+      copyHtml += '<i class="ri-file-copy-2-line"></i><span>COPY</span>';
+      copyHtml += '</button>';
+      $(".highlight .code pre").before(copyHtml);
+      $(".article pre code").before(copyHtml);
+      var clipboard = new ClipboardJS('.btn-copy', {
+        target: function(trigger) {
+          return trigger.nextElementSibling;
+        }
+      });
+      clipboard.on('success', function(e) {
+        let $btn = $(e.trigger);
+        $btn.addClass('copied');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-checkbox-circle-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPIED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-checkbox-circle-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+      clipboard.on('error', function(e) {
+        e.clearSelection();
+        let $btn = $(e.trigger);
+        $btn.addClass('copy-failed');
+        let $icon = $($btn.find('i'));
+        $icon.removeClass('ri-file-copy-2-line');
+        $icon.addClass('ri-time-line');
+        let $span = $($btn.find('span'));
+        $span[0].innerText = 'COPY FAILED';
+        
+        wait(function () { // 等待两秒钟后恢复
+          $icon.removeClass('ri-time-line');
+          $icon.addClass('ri-file-copy-2-line');
+          $span[0].innerText = 'COPY';
+        }, 2000);
+      });
+    }
+    initCopyCode();
+  }(window, document);
+</script>
+ 
+<!-- CanvasBackground -->
+
+<script>
+  if (window.mermaid) {
+    mermaid.initialize({ theme: "forest" });
+  }
+</script>
+
+
+    
+    
+
+  </div>
+</body>
+
+</html>
