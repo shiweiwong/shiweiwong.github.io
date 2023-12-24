@@ -93,7 +93,19 @@
         <category>Linux种种</category>
       </categories>
       <tags>
-        <tag>windows, linux</tag>
+        <tag>wsl</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>多线程下载器 axel</title>
+    <url>/Linux%E7%A7%8D%E7%A7%8D/%E5%A4%9A%E7%BA%BF%E7%A8%8B%E4%B8%8B%E8%BD%BD%E5%99%A8axel.html</url>
+    <content><![CDATA[]]></content>
+      <categories>
+        <category>Linux种种</category>
+      </categories>
+      <tags>
+        <tag>linux</tag>
+        <tag>axel</tag>
       </tags>
   </entry>
   <entry>
@@ -124,21 +136,8 @@
       </tags>
   </entry>
   <entry>
-    <title>git 琐碎知识整理</title>
-    <url>/git/git%E7%90%90%E7%A2%8E%E7%9F%A5%E8%AF%86%E6%95%B4%E7%90%86.html</url>
-    <content><![CDATA[<h1 id="0"><a href="#0" class="headerlink" title="0"></a>0</h1><p>啊，又开一个新坑。 好消息是反正我也习惯不填。  </p>
-<h1 id="1-CRLF-和-LF-自动切换设置"><a href="#1-CRLF-和-LF-自动切换设置" class="headerlink" title="1 CRLF 和 LF 自动切换设置"></a>1 CRLF 和 LF 自动切换设置</h1><p><code>LF</code>是<code>linux</code>和<code>Unix</code>系统的换行符，<code>CRLF</code> 是window 系统的换行符  </p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git config core.autocrlf <span class="literal">false</span> <span class="comment"># 为当前工程取消自动转换</span></span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>git</category>
-      </categories>
-      <tags>
-        <tag>git</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>gitlab 笔记</title>
-    <url>/gitlab/gitlab.html</url>
+    <url>/git/gitlab.html</url>
     <content><![CDATA[<h1 id="0-前言"><a href="#0-前言" class="headerlink" title="0 前言"></a>0 前言</h1><p>会一点Git和Github基础<br>但是 gitlab 和 github 构建思路似乎不太一样<br>gitlab 提供 ci 支持  </p>
 <p><strong>先放几个文档在这里：</strong></p>
 <blockquote>
@@ -169,10 +168,23 @@
 </ul>
 ]]></content>
       <categories>
-        <category>gitlab</category>
+        <category>git</category>
       </categories>
       <tags>
         <tag>git ogitlab</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>git 琐碎知识整理</title>
+    <url>/git/git%E7%90%90%E7%A2%8E%E7%9F%A5%E8%AF%86%E6%95%B4%E7%90%86.html</url>
+    <content><![CDATA[<h1 id="0"><a href="#0" class="headerlink" title="0"></a>0</h1><p>啊，又开一个新坑。 好消息是反正我也习惯不填。  </p>
+<h1 id="1-CRLF-和-LF-自动切换设置"><a href="#1-CRLF-和-LF-自动切换设置" class="headerlink" title="1 CRLF 和 LF 自动切换设置"></a>1 CRLF 和 LF 自动切换设置</h1><p><code>LF</code>是<code>linux</code>和<code>Unix</code>系统的换行符，<code>CRLF</code> 是window 系统的换行符  </p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">git config core.autocrlf <span class="literal">false</span> <span class="comment"># 为当前工程取消自动转换</span></span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>git</category>
+      </categories>
+      <tags>
+        <tag>git</tag>
       </tags>
   </entry>
   <entry>
@@ -388,6 +400,19 @@
       </categories>
   </entry>
   <entry>
+    <title>112. Path Sum</title>
+    <url>/leetcode/112-Path-Sum.html</url>
+    <content><![CDATA[<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">hasPathSum</span><span class="params">(TreeNode root, <span class="keyword">int</span> targetSum)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(root == <span class="keyword">null</span>) <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">        <span class="keyword">if</span>(targetSum == root.val &amp;&amp; root.left == <span class="keyword">null</span> &amp;&amp; root.right == <span class="keyword">null</span>) <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">return</span> hasPathSum(root.left, targetSum - root.val) || hasPathSum(root.right, targetSum - root.val);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>leetcode</category>
+      </categories>
+      <tags>
+        <tag>leetcode</tag>
+        <tag>dfs</tag>
+      </tags>
+  </entry>
+  <entry>
     <title></title>
     <url>/jdk%E5%90%84%E7%89%88%E6%9C%AC%E4%B8%BB%E8%A6%81%E6%9B%B4%E6%96%B0/%E5%90%84%E7%89%88%E6%9C%AC%E5%BC%95%E5%85%A5%E7%9A%84%E6%96%B0%E8%AF%AD%E6%B3%95.html</url>
     <content><![CDATA[<h2 id="jdk12"><a href="#jdk12" class="headerlink" title="jdk12"></a>jdk12</h2><h3 id="switch-表达式"><a href="#switch-表达式" class="headerlink" title="switch 表达式"></a>switch 表达式</h3><ul>
@@ -425,18 +450,6 @@
       <categories>
         <category>jdk各版本主要更新</category>
       </categories>
-  </entry>
-  <entry>
-    <title>112. Path Sum</title>
-    <url>/leetcode/112-Path-Sum.html</url>
-    <content><![CDATA[<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">hasPathSum</span><span class="params">(TreeNode root, <span class="keyword">int</span> targetSum)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(root == <span class="keyword">null</span>) <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">        <span class="keyword">if</span>(targetSum == root.val &amp;&amp; root.left == <span class="keyword">null</span> &amp;&amp; root.right == <span class="keyword">null</span>) <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">return</span> hasPathSum(root.left, targetSum - root.val) || hasPathSum(root.right, targetSum - root.val);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>leetcode</category>
-      </categories>
-      <tags>
-        <tag>leetcode dfs</tag>
-      </tags>
   </entry>
   <entry>
     <title>1129. Shortest Path with Alternating Colors</title>
@@ -754,6 +767,21 @@
       </tags>
   </entry>
   <entry>
+    <title>91-Decode-Ways</title>
+    <url>/leetcode/91-Decode-Ways.html</url>
+    <content><![CDATA[<blockquote>
+<p><a href="https://leetcode.com/problems/decode-ways/">https://leetcode.com/problems/decode-ways/</a></p>
+</blockquote>
+<h3 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h3><p>动态规划问题求解，当前字母能独立解构时 <code>dp[i] += dp[i-1]</code>, 当前字母能与前一个字母解构时 <code>dp[i] += dp[i-2]</code>。</p>
+<h3 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h3><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">numDecodings</span><span class="params">(String s)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (s == <span class="keyword">null</span> || s.length() == <span class="number">0</span> || s.charAt(<span class="number">0</span>) == <span class="string">&#x27;0&#x27;</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">int</span> n = s.length();</span><br><span class="line">        <span class="keyword">int</span>[] dp = <span class="keyword">new</span> <span class="keyword">int</span>[n + <span class="number">1</span>];</span><br><span class="line">        dp[<span class="number">0</span>] = dp[<span class="number">1</span>] = <span class="number">1</span>;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">2</span>; i &lt;= n; i++) &#123;</span><br><span class="line">            <span class="keyword">int</span> first = Integer.valueOf(s.substring(i - <span class="number">1</span>, i));</span><br><span class="line">            <span class="keyword">int</span> second = Integer.valueOf(s.substring(i - <span class="number">2</span>, i));</span><br><span class="line">            <span class="keyword">if</span> (first &gt;= <span class="number">1</span> &amp;&amp; first &lt;= <span class="number">9</span>) &#123;</span><br><span class="line">                dp[i] += dp[i-<span class="number">1</span>];  </span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (second &gt;= <span class="number">10</span> &amp;&amp; second &lt;= <span class="number">26</span>) &#123;</span><br><span class="line">                dp[i] += dp[i-<span class="number">2</span>];</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> dp[n];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>leetcode</category>
+      </categories>
+      <tags>
+        <tag>leetcode</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>934-Shortest-Bridge</title>
     <url>/leetcode/934-Shortest-Bridge.html</url>
     <content><![CDATA[<p>先用 dfs 搜索岛屿，将每块陆地加入队列之后使用 bfs 搜索最近道路。</p>
@@ -916,7 +944,7 @@
   </entry>
   <entry>
     <title>markdown 基础语法</title>
-    <url>/markdown%E7%A7%8D%E7%A7%8D/%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95.html</url>
+    <url>/markdown%E7%A7%8D%E7%A7%8D/Markdown%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95.html</url>
     <content><![CDATA[<h2 id="0-序言"><a href="#0-序言" class="headerlink" title="0  序言"></a>0  序言</h2><p>先开个坑，能不能补以后再说</p>
 <h2 id="1-Markdown-Preview-Enhanced-插件"><a href="#1-Markdown-Preview-Enhanced-插件" class="headerlink" title="1  Markdown Preview Enhanced 插件"></a>1  Markdown Preview Enhanced 插件</h2><blockquote>
 <p><a href="https://www.bookstack.cn/read/mpe/zh-cn-math.md">Markdown Preview Enhanced 插件文档</a></p>
@@ -1107,44 +1135,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Java9模块式开发</title>
-    <url>/notes/Java9%E6%A8%A1%E5%9D%97%E5%BC%80%E5%8F%91.html</url>
-    <content><![CDATA[<h1 id="命令列表"><a href="#命令列表" class="headerlink" title="命令列表"></a>命令列表</h1><ul>
-<li>java –describe-module <modulename><br>查看模块的模块描述符内容。</modulename></li>
-</ul>
-<h1 id="关键字"><a href="#关键字" class="headerlink" title="关键字"></a>关键字</h1><ul>
-<li>requires 导入模块</li>
-<li>requires transitive 传递式导入模块</li>
-<li>exports 导出包</li>
-<li>exports to 限定导出</li>
-<li>provide Interface with class 只能使用全限定名，提供服务  </li>
-<li>uses Interface 使用服务</li>
-<li>requires static 编译时依赖，通过添加 static 引入的模块需要在编译时出现。在运行时调用该模块不存在仍会抛出 NoClassDefFoundError。</li>
-</ul>
-<h1 id="杂项"><a href="#杂项" class="headerlink" title="杂项"></a>杂项</h1><h2 id="JDK-中的聚合器模块"><a href="#JDK-中的聚合器模块" class="headerlink" title="JDK 中的聚合器模块"></a>JDK 中的聚合器模块</h2><table>
-<thead>
-<tr>
-<th align="left">模块</th>
-<th align="left">聚合</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="left">java.se</td>
-<td align="left">所有正式属于 Java SE 规范的模块</td>
-</tr>
-<tr>
-<td align="left">java.se.ee</td>
-<td align="left">java.se 模块以及与 Java SE 平台捆绑在一起的所有 Java EE 模块</td>
-</tr>
-</tbody></table>
-<p>Java 中的包是非层次结构的。不管外表如何，splitpackage 喝 splitpackage.internal 是两个不相关却共享相同前缀的包。  </p>
-<p>普通的导入不可传递。<br>不允许循环 requires。<br>模块具有单独的命名空间。</p>
-]]></content>
-      <categories>
-        <category>notes</category>
-      </categories>
-  </entry>
-  <entry>
     <title>Neo4j</title>
     <url>/notes/Neo4j.html</url>
     <content><![CDATA[<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">// 清空所有数据  </span><br><span class="line">MATCH (n)</span><br><span class="line">OPTIONAL MATCH (n)-[r]-()</span><br><span class="line">// OPTIONAL MATCH语句用于搜索模式中描述的匹配项，对于找不到的项，用null代替；在Cypher语句中，类似于SQL语句中的outer join</span><br><span class="line">DELETE n,r</span><br></pre></td></tr></table></figure>
@@ -1312,6 +1302,44 @@
 <pre><code>
 </code></pre>
 </MATCH></MATCH>]]></content>
+      <categories>
+        <category>notes</category>
+      </categories>
+  </entry>
+  <entry>
+    <title>Java9模块式开发</title>
+    <url>/notes/Java9%E6%A8%A1%E5%9D%97%E5%BC%80%E5%8F%91.html</url>
+    <content><![CDATA[<h1 id="命令列表"><a href="#命令列表" class="headerlink" title="命令列表"></a>命令列表</h1><ul>
+<li>java –describe-module <modulename><br>查看模块的模块描述符内容。</modulename></li>
+</ul>
+<h1 id="关键字"><a href="#关键字" class="headerlink" title="关键字"></a>关键字</h1><ul>
+<li>requires 导入模块</li>
+<li>requires transitive 传递式导入模块</li>
+<li>exports 导出包</li>
+<li>exports to 限定导出</li>
+<li>provide Interface with class 只能使用全限定名，提供服务  </li>
+<li>uses Interface 使用服务</li>
+<li>requires static 编译时依赖，通过添加 static 引入的模块需要在编译时出现。在运行时调用该模块不存在仍会抛出 NoClassDefFoundError。</li>
+</ul>
+<h1 id="杂项"><a href="#杂项" class="headerlink" title="杂项"></a>杂项</h1><h2 id="JDK-中的聚合器模块"><a href="#JDK-中的聚合器模块" class="headerlink" title="JDK 中的聚合器模块"></a>JDK 中的聚合器模块</h2><table>
+<thead>
+<tr>
+<th align="left">模块</th>
+<th align="left">聚合</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">java.se</td>
+<td align="left">所有正式属于 Java SE 规范的模块</td>
+</tr>
+<tr>
+<td align="left">java.se.ee</td>
+<td align="left">java.se 模块以及与 Java SE 平台捆绑在一起的所有 Java EE 模块</td>
+</tr>
+</tbody></table>
+<p>Java 中的包是非层次结构的。不管外表如何，splitpackage 喝 splitpackage.internal 是两个不相关却共享相同前缀的包。  </p>
+<p>普通的导入不可传递。<br>不允许循环 requires。<br>模块具有单独的命名空间。</p>
+]]></content>
       <categories>
         <category>notes</category>
       </categories>
@@ -2141,19 +2169,6 @@
       </categories>
   </entry>
   <entry>
-    <title>一图入门 uml</title>
-    <url>/uml/uml.html</url>
-    <content><![CDATA[<p>原图出处已不可考  </p>
-<p><img src="/uml/uml.htm/uml.png" alt="uml"></p>
-]]></content>
-      <categories>
-        <category>uml</category>
-      </categories>
-      <tags>
-        <tag>uml</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>杂谈</title>
     <url>/vscode/nothing.html</url>
     <content><![CDATA[<h3 id="1-语音输入插件"><a href="#1-语音输入插件" class="headerlink" title="1 语音输入插件"></a>1 语音输入插件</h3><p>在和某同事聊天的过程中产生了在 vscode 中使用语音输入的想法，搜索了一番发现出于隐私政策等原因目前 vscode 插件无法直接调用媒体，只能进行二次开发。 悲。</p>
@@ -2299,6 +2314,37 @@
       </tags>
   </entry>
   <entry>
+    <title>在小米平板6上使用vscode</title>
+    <url>/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7/%E5%9C%A8%E5%B0%8F%E7%B1%B3%E5%B9%B3%E6%9D%BF6%E4%B8%8A%E4%BD%BF%E7%94%A8vscode.html</url>
+    <content><![CDATA[<p>使用 termux 安装 code-server, 随后使用浏览器安装离线应用。</p>
+<h1 id="1-安装-termux"><a href="#1-安装-termux" class="headerlink" title="1 安装 termux"></a>1 安装 termux</h1><blockquote>
+<p><a href="https://termux.dev/en/">https://termux.dev/en/</a><br>Termux 是一个 Android 终端模拟器, 可以直接运行的 Linux 环境应用。<br>在这个环境下只默认安装了基本的软件包，但是可以使用 APT 包管理器安装其他应用程序。  </p>
+</blockquote>
+<ol>
+<li>它用 proot 加载的 linux rootfs ——用户态的 chroot ，基于 linux ptrace 函数。</li>
+<li>它的维护团队，编译了一堆(近千个)用于扩展 android console 的命令行工具，包括 “安卓版的linux桌面环境” —— xfce(这不同于proot出来的linux中运行的xfce)。</li>
+</ol>
+<h1 id="2-安装-proot-distro-并加载-debian"><a href="#2-安装-proot-distro-并加载-debian" class="headerlink" title="2 安装 proot-distro 并加载 debian"></a>2 安装 proot-distro 并加载 debian</h1><blockquote>
+<p>proot-distro <a href="https://github.com/termux/proot-distro">https://github.com/termux/proot-distro</a></p>
+</blockquote>
+<p>PRoot 的 Bash 脚本包装器，可管理基于 chroot 的 Linux 发行版。不需要root或任何特殊的ROM、内核。<br>PRoot-Distro 并不是虚拟机，这是一个基于 PRoot 实用程序的容器环境管理器，能够模拟“chroot”和“mount-bind”。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="string">&quot;初始化储存&quot;</span></span><br><span class="line">termux-setup-storage</span><br><span class="line"><span class="string">&quot;更换镜像源&quot;</span></span><br><span class="line">termux-change-repo</span><br><span class="line"></span><br><span class="line"><span class="string">&quot;加载 debian 内核&quot;</span></span><br><span class="line">apt install proot-distro</span><br><span class="line">proot-distro install debian</span><br><span class="line">proot-distro login debian</span><br></pre></td></tr></table></figure>
+<p>此时已经可以在平板上运行完整 Linux 应用程序。</p>
+<h1 id="3-安装-code-server-并保存为离线应用"><a href="#3-安装-code-server-并保存为离线应用" class="headerlink" title="3 安装 code-server 并保存为离线应用"></a>3 安装 code-server 并保存为离线应用</h1><blockquote>
+<p><a href="https://github.com/coder/code-server">https://github.com/coder/code-server</a></p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">curl -fsSL https://code-server.dev/install.sh | sh</span><br></pre></td></tr></table></figure>
+
+<p>小米浏览器访问 <code>localhost:8080</code>，并根据提示安装为离线应用程序</p>
+]]></content>
+      <categories>
+        <category>开发工具</category>
+      </categories>
+      <tags>
+        <tag>-小米平板6 -开发工具</tag>
+      </tags>
+  </entry>
+  <entry>
     <title></title>
     <url>/%E6%A8%A1%E6%9D%BF%E4%BB%A3%E7%A0%81/Trie(Prefix_Tree).html</url>
     <content><![CDATA[<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Trie</span> </span>&#123;</span><br><span class="line">    <span class="class"><span class="keyword">class</span> <span class="title">Node</span></span>&#123;</span><br><span class="line">        <span class="keyword">boolean</span> isLeaf;</span><br><span class="line">        Node[] children = <span class="keyword">new</span> Node[<span class="number">26</span>];</span><br><span class="line">    &#125;</span><br><span class="line">    Node root = <span class="keyword">new</span> Node();</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Trie</span><span class="params">()</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">insert</span><span class="params">(String word)</span> </span>&#123;</span><br><span class="line">        Node cur  = root;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">char</span> c: word.toCharArray())&#123;</span><br><span class="line">            <span class="keyword">if</span>(cur.children[c-<span class="string">&#x27;a&#x27;</span>] == <span class="keyword">null</span>)</span><br><span class="line">                cur.children[c-<span class="string">&#x27;a&#x27;</span>] = <span class="keyword">new</span> Node();</span><br><span class="line">            cur = cur.children[c-<span class="string">&#x27;a&#x27;</span>];</span><br><span class="line">        &#125;</span><br><span class="line">        cur.isLeaf = <span class="keyword">true</span>;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">search</span><span class="params">(String word)</span> </span>&#123;</span><br><span class="line">        Node cur = root;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">char</span> c: word.toCharArray())&#123;</span><br><span class="line">            <span class="keyword">if</span>(cur.children[c-<span class="string">&#x27;a&#x27;</span>] == <span class="keyword">null</span>) <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">            cur = cur.children[c-<span class="string">&#x27;a&#x27;</span>];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> cur.isLeaf;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">startsWith</span><span class="params">(String prefix)</span> </span>&#123;</span><br><span class="line">        Node cur = root;</span><br><span class="line">        <span class="keyword">for</span>(<span class="keyword">char</span> c: prefix.toCharArray())&#123;</span><br><span class="line">            <span class="keyword">if</span>(cur.children[c-<span class="string">&#x27;a&#x27;</span>] == <span class="keyword">null</span>) <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">            cur = cur.children[c-<span class="string">&#x27;a&#x27;</span>];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Your Trie object will be instantiated and called as such:</span></span><br><span class="line"><span class="comment"> * Trie obj = new Trie();</span></span><br><span class="line"><span class="comment"> * obj.insert(word);</span></span><br><span class="line"><span class="comment"> * boolean param_2 = obj.search(word);</span></span><br><span class="line"><span class="comment"> * boolean param_3 = obj.startsWith(prefix);</span></span><br><span class="line"><span class="comment"> */</span></span><br></pre></td></tr></table></figure>
@@ -2339,7 +2385,8 @@
         <category>琐碎知识整理</category>
       </categories>
       <tags>
-        <tag>pytorch, python</tag>
+        <tag>pytorch</tag>
+        <tag>python</tag>
       </tags>
   </entry>
   <entry>
@@ -2489,6 +2536,35 @@
       <categories>
         <category>随笔</category>
       </categories>
+  </entry>
+  <entry>
+    <title>ctf 简介</title>
+    <url>/ctfhub/ctf%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/ctf%E7%AE%80%E4%BB%8B.html</url>
+    <content><![CDATA[<p>CTF（Capture The Flag，夺旗赛）CTF 的前身是传统黑客之间的网络技术比拼游戏，起源于 1996 年第四届 DEFCON，以代替之前黑客们通过互相发起真实攻击进行技术比拼的方式。</p>
+<p>CTF是一种流行的信息安全竞赛形式，其英文名可直译为“夺得Flag”，也可意译为“夺旗赛”。其大致流程是，参赛团队之间通过进行攻防对抗、程序分析等形式，率先从主办方给出的比赛环境中得到一串具有一定格式的字符串或其他内容，并将其提交给主办方，从而夺得分数。为了方便称呼，我们把这样的内容称之为“Flag”。</p>
+<p>flag所表示的为目标服务器上存储的一些敏感机密的信息, 这些信息正常情况下是不能对外暴露的。选手利用目标的一些漏洞，获取到flag，其表示的即为在真实的黑客攻击中窃取到的机密信息。</p>
+<p>一般情况下flag拥有固定格式为flag{xxxxx}，有些比赛会把flag关键词替换，例如我们CTFHub平台的flag为ctfhub{xxxxx}，利用固定格式来反推flag也是一种常见的解题思路</p>
+<p>通常来说CTF是以团队为单位进行参赛。每个团队3-5人(具体根据主办方要求决定)，在整个比赛过程中既要每个选手拥有某个方向的漏洞挖掘能力，也要同队选手之间的相互配合。</p>
+]]></content>
+      <categories>
+        <category>ctfhub</category>
+        <category>ctf基础知识</category>
+      </categories>
+      <tags>
+        <tag>ctf</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title></title>
+    <url>/ctfhub/ctf%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E7%AB%9E%E8%B5%9B%E6%A8%A1%E5%BC%8F.html</url>
+    <content><![CDATA[<h1 id="11"><a href="#11" class="headerlink" title="11"></a>11</h1>]]></content>
+      <categories>
+        <category>ctfhub</category>
+        <category>ctf基础知识</category>
+      </categories>
+      <tags>
+        <tag>ctf</tag>
+      </tags>
   </entry>
   <entry>
     <title>Spring</title>
